@@ -7,6 +7,9 @@ from django.utils.module_loading import import_string
 from django.utils.translation import get_language
 
 
+__all__ = ('TranslatedField', 'translated_attributes')
+
+
 def to_attribute(name, language):
     return re.sub(r'[^a-z0-9_]+', '_', ('%s_%s' % (name, language)).lower())
 
