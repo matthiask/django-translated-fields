@@ -40,6 +40,9 @@ class TranslatedField(object):
         field = import_string(self.path)
 
         for language_code, _l in settings.LANGUAGES:
+            # TODO Python 3.5 does not run our contribute_to_class methods
+            # in TranslatedField definition order, maybe we should insert
+            # some Field.creation_counter hackery here?
             field(
                 verbose_name=verbose_name_with_language(
                     self.verbose_name or self.name,
