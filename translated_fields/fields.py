@@ -34,6 +34,7 @@ def verbose_name_with_language(verbose_name, language_code):
 
 class TranslatedField(object):
     def __init__(self, field):
+        # TODO allow disabling append_language_to_verbose_name?
         self.name, self.path, self.args, self.kwargs = field.deconstruct()
         self.verbose_name = self.kwargs.pop('verbose_name', None)
 
