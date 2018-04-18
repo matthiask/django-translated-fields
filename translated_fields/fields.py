@@ -29,14 +29,14 @@ def translated_attributes(*names):
 
 @keep_lazy_text
 def verbose_name_with_language(verbose_name, language_code):
-    return '%s (%s)' % (verbose_name, language_code.upper())
+    return '%s [%s]' % (verbose_name, language_code)
 
 
 class TranslatedField(object):
-    def __init__(self, field):
-        # TODO allow disabling append_language_to_verbose_name?
+    def __init__(self, field, *, verbose_name_with_language=True):
         self.name, self.path, self.args, self.kwargs = field.deconstruct()
         self.verbose_name = self.kwargs.pop('verbose_name', None)
+        self._verbose_name_with_language = verbose_name_with_language
 
         # Make space for our fields. Can be removed when dropping support
         # for Python<3.6
@@ -51,7 +51,7 @@ class TranslatedField(object):
                 verbose_name=verbose_name_with_language(
                     self.verbose_name or self.name,
                     language_code,
-                ),
+                ) if self._verbose_name_with_language else self.verbose_name,
                 *self.args,
                 **self.kwargs
             )

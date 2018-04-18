@@ -53,9 +53,9 @@ class Test(TestCase):
         response = client.get('/admin/testapp/testmodel/add/')
         self.assertContains(
             response,
-            'Name (DE)',
+            'Name [de]',
         )
         self.assertContains(
             response,
-            'Other (EN)',
+            'Other [en]',
         )
