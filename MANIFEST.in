@@ -1,0 +1,6 @@
+include LICENSE
+include MANIFEST.in
+include README.rst
+recursive-include translated_fields/static *
+recursive-include translated_fields/locale *
+recursive-include translated_fields/templates *
