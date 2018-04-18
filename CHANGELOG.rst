@@ -10,6 +10,6 @@ Change log
 
 - Initial release!
 
-.. _0.1: https://github.com/matthiask/django-translated-fields/commit/e50451b5661
+.. _0.1: https://github.com/matthiask/django-translated-fields/commit/0710fc8244
 .. _0.2: https://github.com/matthiask/django-translated-fields/compare/0.1...0.2
 .. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.1...master
