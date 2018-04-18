@@ -2,18 +2,18 @@ sudo: false
 cache: pip
 language: python
 python:
-  - "3.5"
-  - "3.6"
+- "3.5"
+- "3.6"
 env:
-  - DJANGO="Django>=1.11,<2.0"
-  - DJANGO="Django>=2.0,<2.1"
+- REQ="Django>=1.11,<2.0"
+- REQ="Django>=2.0,<2.1"
+- REQ="https://github.com/django/django/archive/master.zip#egg=Django"
 install:
-  - nvm install 7
-  - pip install -U pip wheel flake8 isort unify
-  - pip install $DJANGO -e .[tests]
-  - pip freeze
+- pip install -U pip wheel flake8 isort unify
+- pip install $REQ
+- python setup.py install
 script:
-  - pytest
-  - flake8
-  - isort --check-only --diff --recursive translated_fields tests
-  - unify --check-only --recursive --quote \' translated_fields tests
+- cd tests && ./manage.py test -v2 testapp && cd ..
+- flake8
+- isort --check-only --diff --recursive translated_fields tests
+- unify --check-only --recursive --quote "'" translated_fields tests

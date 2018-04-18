@@ -3,5 +3,5 @@ __version__ = '.'.join(map(str, VERSION))
 
 try:
     from .fields import *  # noqa
-except ImportError:
+except ImportError:  # pragma: no cover
     pass
