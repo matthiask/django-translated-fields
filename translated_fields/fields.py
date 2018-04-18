@@ -7,20 +7,18 @@ from django.utils.module_loading import import_string
 from django.utils.translation import get_language
 
 
-def to_attr(name):
-    return re.sub(r'[^a-z0-9_]+', '_', name.lower())
+def to_attribute(name, language):
+    return re.sub(r'[^a-z0-9_]+', '_', ('%s_%s' % (name, language)).lower())
 
 
-def translated_attributes(*attributes):
-    def prop(attr):
-        return property(lambda self: getattr(
-            self,
-            to_attr('%s_%s' % (attr, get_language())),
-        ))
+def translated_attrgetter(name):
+    return lambda self: getattr(self, to_attribute(name, get_language()))
 
+
+def translated_attributes(*names):
     def decorator(cls):
-        for attribute in attributes:
-            setattr(cls, attribute, prop(attribute))
+        for name in names:
+            setattr(cls, name, property(translated_attrgetter(name)))
         return cls
 
     return decorator
@@ -55,16 +53,8 @@ class TranslatedField(object):
             )
             f.creation_counter = self.creation_counter
             self.creation_counter += 1
-            f.contribute_to_class(
-                cls,
-                to_attr('%s_%s' % (name, language_code)),
-            )
-            # print(f, f.creation_counter)
+            f.contribute_to_class(cls, to_attribute(name, language_code))
 
-        def getter(self):
-            return getattr(
-                self,
-                to_attr('%s_%s' % (name, get_language())),
-            )
+        getter = translated_attrgetter(name)
         getter.short_description = self.verbose_name or self.name
         setattr(cls, name, property(getter))
