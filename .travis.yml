@@ -8,6 +8,9 @@ env:
 - REQ="Django>=1.11,<2.0"
 - REQ="Django>=2.0,<2.1"
 - REQ="https://github.com/django/django/archive/master.zip#egg=Django"
+matrix:
+  allow_failures:
+    - env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
 install:
 - pip install -U pip wheel flake8 isort unify
 - pip install $REQ
