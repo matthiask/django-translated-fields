@@ -1,6 +1,9 @@
 import re
 
+from django.conf import settings
+from django.db.models import Field
 from django.utils.functional import keep_lazy_text
+from django.utils.module_loading import import_string
 from django.utils.translation import get_language
 
 
@@ -33,27 +36,30 @@ class TranslatedField(object):
         self.name, self.path, self.args, self.kwargs = field.deconstruct()
         self.verbose_name = self.kwargs.pop('verbose_name', None)
 
-    def contribute_to_class(self, cls, name):
-        from django.conf import settings
-        from django.utils.module_loading import import_string
+        # Make space for our fields. Can be removed when dropping support
+        # for Python<3.6
+        self.creation_counter = Field.creation_counter
+        Field.creation_counter += len(settings.LANGUAGES)
 
+    def contribute_to_class(self, cls, name):
         field = import_string(self.path)
 
         for language_code, _l in settings.LANGUAGES:
-            # TODO Python 3.5 does not run our contribute_to_class methods
-            # in TranslatedField definition order, maybe we should insert
-            # some Field.creation_counter hackery here?
-            field(
+            f = field(
                 verbose_name=verbose_name_with_language(
                     self.verbose_name or self.name,
                     language_code,
                 ),
                 *self.args,
                 **self.kwargs
-            ).contribute_to_class(
+            )
+            f.creation_counter = self.creation_counter
+            self.creation_counter += 1
+            f.contribute_to_class(
                 cls,
                 to_attr('%s_%s' % (name, language_code)),
             )
+            # print(f, f.creation_counter)
 
         def getter(self):
             return getattr(
