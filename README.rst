@@ -55,3 +55,14 @@ attribute getter property::
     class Test(object):
         attribute_en = 'some value'
         attribute_de = 'some other value'
+
+
+There is no support for automatically referencing the current language's
+field in queries or automatically adding fields to admin fieldsets and
+whatnot. The code required for these features isn't too hard to write,
+but it is hard to maintain down the road which contradicts my goal of
+writing `low maintenance software
+<https://406.ch/writing/low-maintenance-software/>`_. Still, feedback
+and pull requests are very welcome! Please run the style checks and test
+suite locally before submitting a pull request though -- all that this
+requires is running `tox <https://tox.readthedocs.io/>`_.
