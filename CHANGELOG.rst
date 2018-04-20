@@ -5,6 +5,12 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- By default the language is appended to the ``verbose_name`` of
+  fields created by ``TranslatedField``. Added the
+  ``verbose_name_with_language=True`` parameter to ``TranslatedField``
+  which allows skipping this behavior.
+
+
 `0.1`_ (2018-04-18)
 ~~~~~~~~~~~~~~~~~~~
 

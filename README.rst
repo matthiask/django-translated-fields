@@ -33,6 +33,10 @@ translated fields to your models::
         )
         answer3 = TranslatedField(
             models.CharField(_('answer 3'), max_length=200, blank=True),
+            # The language is appended to the verbose_name of fields by
+            # default . If you do not want this, add the following
+            # argument:
+            # verbose_name_with_language=False,
         )
 
         def __str__(self):
