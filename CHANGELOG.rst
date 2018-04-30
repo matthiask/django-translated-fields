@@ -5,6 +5,9 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+`0.2`_ (2018-04-30)
+~~~~~~~~~~~~~~~~~~~
+
 - By default the language is appended to the ``verbose_name`` of
   fields created by ``TranslatedField``. Added the
   ``verbose_name_with_language=True`` parameter to ``TranslatedField``
@@ -27,4 +30,4 @@ Change log
 
 .. _0.1: https://github.com/matthiask/django-translated-fields/commit/0710fc8244
 .. _0.2: https://github.com/matthiask/django-translated-fields/compare/0.1...0.2
-.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.1...master
+.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.2...master
