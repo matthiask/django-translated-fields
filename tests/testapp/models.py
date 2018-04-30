@@ -31,3 +31,10 @@ class CustomLanguagesModel(models.Model):
         languages=('fr', 'it'),
         attrgetter=custom_attrgetter,
     )
+
+
+class SpecificModel(models.Model):
+    name = TranslatedField(
+        models.CharField(_('name'), max_length=200, blank=True),
+        {'en': {'blank': False}},
+    )

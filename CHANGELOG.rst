@@ -15,6 +15,9 @@ Change log
 - Added a ``attrgetter`` keyword argument to ``TranslatedField`` to
   replace the default implementation of language-specific attribute
   getting.
+- Added the possibility to override field keyword arguments for specific
+  languages, e.g. to only make a single language field mandatory and
+  implement your own fallback via ``attrgetter``.
 
 
 `0.1`_ (2018-04-18)

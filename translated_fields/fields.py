@@ -34,7 +34,9 @@ def verbose_name_with_language(verbose_name, language_code):
 
 class TranslatedField(object):
     def __init__(
-            self, field,
+            self,
+            field,
+            specific=None,
             *,
             verbose_name_with_language=True,
             languages=None,
@@ -42,6 +44,7 @@ class TranslatedField(object):
     ):
         self.name, self.path, self.args, self.kwargs = field.deconstruct()
         self.verbose_name = self.kwargs.pop('verbose_name', None)
+        self._specific = specific or {}
         self._verbose_name_with_language = verbose_name_with_language
         self._languages = languages or [l[0] for l in settings.LANGUAGES]
         self._attrgetter = attrgetter or translated_attrgetter
@@ -61,7 +64,7 @@ class TranslatedField(object):
                     language_code,
                 ) if self._verbose_name_with_language else self.verbose_name,
                 *self.args,
-                **self.kwargs
+                **dict(self.kwargs, **self._specific.get(language_code, {})),
             )
             f.creation_counter = self.creation_counter
             self.creation_counter += 1

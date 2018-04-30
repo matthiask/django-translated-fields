@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.forms.models import modelform_factory
 from django.test import Client, TestCase
 from django.utils.translation import deactivate_all, override
 
-from .models import CustomLanguagesModel, TestModel
+from .models import CustomLanguagesModel, SpecificModel, TestModel
 
 
 class Test(TestCase):
@@ -76,3 +77,17 @@ class Test(TestCase):
             m.name_en
         with self.assertRaises(AttributeError):
             m.name_de
+
+    def test_specific(self):
+        m = SpecificModel()
+
+        with self.assertRaises(ValidationError) as cm:
+            m.full_clean()
+
+        self.assertEqual(
+            list(cm.exception.error_dict),
+            ['name_en'],
+        )
+
+        m.name_en = 'bla'
+        m.full_clean()

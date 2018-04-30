@@ -33,6 +33,12 @@ translated fields to your models::
         )
         answer3 = TranslatedField(
             models.CharField(_('answer 3'), max_length=200, blank=True),
+
+            # Specific keyword arguments for fields, defaults to None.
+            # For example, if you want to make the first language
+            # mandatory:
+            # {settings.LANGUAGES[0]: {'blank': False}},
+
             # The language is appended to the verbose_name of fields by
             # default . If you do not want this, add the following
             # argument:
