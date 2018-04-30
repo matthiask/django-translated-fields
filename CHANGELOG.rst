@@ -9,6 +9,12 @@ Change log
   fields created by ``TranslatedField``. Added the
   ``verbose_name_with_language=True`` parameter to ``TranslatedField``
   which allows skipping this behavior.
+- Added a ``languages`` keyword argument to ``TranslatedField`` to
+  allow specifying a different set of language-specific fields than the
+  default of the ``LANGUAGES`` setting.
+- Added a ``attrgetter`` keyword argument to ``TranslatedField`` to
+  replace the default implementation of language-specific attribute
+  getting.
 
 
 `0.1`_ (2018-04-18)

@@ -18,3 +18,16 @@ class TestModel(models.Model):
 
     stuff_en = 'eng'
     stuff_de = 'ger'
+
+
+def custom_attrgetter(name):
+    # Nonsense example.
+    return lambda self: self.name_fr or self.name_it or 'NO VALUE'
+
+
+class CustomLanguagesModel(models.Model):
+    name = TranslatedField(
+        models.CharField(_('name'), max_length=200),
+        languages=('fr', 'it'),
+        attrgetter=custom_attrgetter,
+    )

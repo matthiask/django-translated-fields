@@ -37,6 +37,15 @@ translated fields to your models::
             # default . If you do not want this, add the following
             # argument:
             # verbose_name_with_language=False,
+
+            # The default is to take [lang[0] for lang in LANGUAGES]
+            # languages=None,
+
+            # The default implementation returns the attribute related
+            # to ``translation.get_language``. Pass a callable receiving
+            # the translated field's name and returning a callable which
+            # has ``self`` as its only argument.
+            # attrgetter=None,
         )
 
         def __str__(self):

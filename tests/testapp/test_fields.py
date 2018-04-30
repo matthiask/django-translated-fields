@@ -3,7 +3,7 @@ from django.forms.models import modelform_factory
 from django.test import Client, TestCase
 from django.utils.translation import deactivate_all, override
 
-from .models import TestModel
+from .models import CustomLanguagesModel, TestModel
 
 
 class Test(TestCase):
@@ -59,3 +59,20 @@ class Test(TestCase):
             response,
             'Other [en]',
         )
+
+    def test_custom_languages(self):
+        m = CustomLanguagesModel()
+
+        self.assertEqual(m.name, 'NO VALUE')
+        m.name_it = 'it'
+        self.assertEqual(m.name, 'it')
+        m.name_fr = 'fr'
+        self.assertEqual(m.name, 'fr')
+        m.name_it = ''
+        self.assertEqual(m.name, 'fr')
+
+        # The attributes from LANGUAGES should not exist:
+        with self.assertRaises(AttributeError):
+            m.name_en
+        with self.assertRaises(AttributeError):
+            m.name_de
