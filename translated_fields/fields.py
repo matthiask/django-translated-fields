@@ -42,12 +42,12 @@ class TranslatedField(object):
             languages=None,
             attrgetter=None
     ):
-        self.name, self.path, self.args, self.kwargs = field.deconstruct()
-        self.verbose_name = self.kwargs.pop('verbose_name', None)
+        self._field = field
         self._specific = specific or {}
         self._verbose_name_with_language = verbose_name_with_language
-        self._languages = languages or [l[0] for l in settings.LANGUAGES]
         self._attrgetter = attrgetter or translated_attrgetter
+
+        self.languages = list(languages or (l[0] for l in settings.LANGUAGES))
 
         # Make space for our fields. Can be removed when dropping support
         # for Python<3.6
@@ -55,23 +55,29 @@ class TranslatedField(object):
         Field.creation_counter += len(settings.LANGUAGES)
 
     def contribute_to_class(self, cls, name):
-        field = import_string(self.path)
+        _n, path, args, kwargs = self._field.deconstruct()
+        verbose_name = kwargs.pop('verbose_name', name)
+        field = import_string(path)
+        fields = []
 
-        for language_code in self._languages:
+        for language_code in self.languages:
             f = field(
                 verbose_name=verbose_name_with_language(
-                    self.verbose_name or self.name,
+                    verbose_name,
                     language_code,
-                ) if self._verbose_name_with_language else self.verbose_name,
-                *self.args,
-                **dict(self.kwargs, **self._specific.get(language_code, {})),
+                ) if self._verbose_name_with_language else verbose_name,
+                *args,
+                **dict(kwargs, **self._specific.get(language_code, {})),
             )
             f.creation_counter = self.creation_counter
             self.creation_counter += 1
-            f.contribute_to_class(cls, to_attribute(name, language_code))
+            attr = to_attribute(name, language_code)
+            f.contribute_to_class(cls, attr)
+            fields.append(attr)
 
         setattr(cls, name, self)
-        self.short_description = self.verbose_name or self.name
+        self.fields = fields
+        self.short_description = verbose_name
         self._getter = self._attrgetter(name)
 
     def __get__(self, obj, objtype=None):

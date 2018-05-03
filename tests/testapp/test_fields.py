@@ -92,17 +92,25 @@ class Test(TestCase):
 
     def test_translated_field_instance(self):
         self.assertEqual(
-            CustomLanguagesModel.name._languages,
-            ('fr', 'it'),
+            CustomLanguagesModel.name.languages,
+            ['fr', 'it'],
         )
         m = CustomLanguagesModel()
         with self.assertRaises(AttributeError):
-            m.name._languages
+            m.name.languages
 
         self.assertEqual(
-            m.__class__.name._languages,
-            ('fr', 'it'),
+            m.__class__.name.languages,
+            ['fr', 'it'],
         )
+
+        self.assertEqual(
+            CustomLanguagesModel.name.fields,
+            ['name_fr', 'name_it'],
+        )
+
+        # Not str, lazy!
+        self.assertFalse(CustomLanguagesModel.name.short_description is str)
 
     def test_specific(self):
         m = SpecificModel()
