@@ -47,18 +47,20 @@ instance is a `descriptor
 <https://docs.python.org/3/howto/descriptor.html>`_ which by default
 acts as a property for the current language's field::
 
+    from django.utils.translation import override
+
     question = Question(
         question_en='How are you?',
         question_de='Wie geht es Dir?',
         question_fr='Ça va?',
     )
 
-    with translation.override('en'):
+    with override('en'):
         assert question.question == 'How are you?'
-    with translation.override('de'):
+    with override('de'):
         assert question.question == 'Wie geht es Dir?'
 
-    with translation.override('fr'):
+    with override('fr'):
         question.question = 'Comment vas-tu?'
 
     assert question.question_fr == 'Comment vas-tu?'
@@ -73,7 +75,8 @@ access. This can be overridden by specifying your own ``attrgetter`` and
 default language (and at the same time allow leaving other languages'
 fields empty)::
 
-    from translated_fields import to_attribute
+    from django.conf import settings
+    from translated_fields import TranslatedField, to_attribute
 
     def fallback_to_default(name):
         def getter(self):
@@ -115,7 +118,7 @@ The ``TranslatedField`` descriptor has a few useful attributes (sticking
 with the model and field from the examples above):
 
 * ``Question.question.fields`` contains the names of all automatically
-  generated fields, e.g. ``['question_en', 'question_...`, ...]``.
+  generated fields, e.g. ``['question_en', 'question_...', ...]``.
 * ``Question.question.languages`` is the list of language codes.
 * ``Question.question.short_description`` is set to the ``verbose_name``
   of the base field, so that the translatable attribute can be nicely
