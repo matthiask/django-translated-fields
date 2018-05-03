@@ -78,6 +78,20 @@ class Test(TestCase):
         with self.assertRaises(AttributeError):
             m.name_de
 
+    def test_translated_field_instance(self):
+        self.assertEqual(
+            CustomLanguagesModel.name._languages,
+            ('fr', 'it'),
+        )
+        m = CustomLanguagesModel()
+        with self.assertRaises(AttributeError):
+            m.name._languages
+
+        self.assertEqual(
+            m.__class__.name._languages,
+            ('fr', 'it'),
+        )
+
     def test_specific(self):
         m = SpecificModel()
 

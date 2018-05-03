@@ -70,6 +70,12 @@ class TranslatedField(object):
             self.creation_counter += 1
             f.contribute_to_class(cls, to_attribute(name, language_code))
 
-        getter = self._attrgetter(name)
-        getter.short_description = self.verbose_name or self.name
-        setattr(cls, name, property(getter))
+        self._getter = self._attrgetter(name)
+        self._getter.short_description = self.verbose_name or self.name
+        # setattr(cls, name, property(getter))
+        setattr(cls, name, self)
+
+    def __get__(self, obj, objtype=None):
+        if obj is None:
+            return self
+        return self._getter(obj)
