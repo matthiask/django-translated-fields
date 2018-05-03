@@ -52,6 +52,10 @@ translated fields to your models::
             # the translated field's name and returning a callable which
             # has ``self`` as its only argument.
             # attrgetter=None,
+
+            # Almost the same as above, only that the returned callable
+            # should accept ``self`` and ``value``
+            # attrsetter=None,
         )
 
         def __str__(self):
