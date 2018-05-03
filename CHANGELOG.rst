@@ -5,6 +5,18 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Added documentation.
+- Converted the ``TranslatedField`` into a descriptor, and made
+  available a few useful fields on the descriptor instance.
+- Made it possible to set the value of the current language's field, and
+  added another keyword argument for replacing the default
+  ``attrsetter``.
+- Made ``to_attribute`` fall back to the current language.
+- Added exports for ``to_attribute``, ``translated_attrgetter`` and
+  ``translated_attrsetter`` to ``translated_fields``.
+- Added an ``attrgetter`` argument to ``translated_attributes``.
+
+
 `0.2`_ (2018-04-30)
 ~~~~~~~~~~~~~~~~~~~
 
@@ -30,4 +42,5 @@ Change log
 
 .. _0.1: https://github.com/matthiask/django-translated-fields/commit/0710fc8244
 .. _0.2: https://github.com/matthiask/django-translated-fields/compare/0.1...0.2
-.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.2...master
+.. _0.3: https://github.com/matthiask/django-translated-fields/compare/0.2...0.3
+.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.3...master
