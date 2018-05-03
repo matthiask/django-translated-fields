@@ -7,7 +7,13 @@ from django.utils.module_loading import import_string
 from django.utils.translation import get_language
 
 
-__all__ = ('TranslatedField', 'translated_attributes')
+__all__ = (
+    'TranslatedField',
+    'to_attribute',
+    'translated_attrgetter',
+    'translated_attrsetter',
+    'translated_attributes',
+)
 
 
 def to_attribute(name, language):
