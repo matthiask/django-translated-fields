@@ -58,7 +58,7 @@ class TranslatedField(object):
         _n, _p, args, kwargs = self._field.deconstruct()
         verbose_name = kwargs.pop('verbose_name', name)
         fields = []
-        for language_code in self.languages:
+        for index, language_code in enumerate(self.languages):
             f = self._field.__class__(
                 verbose_name=verbose_name_with_language(
                     verbose_name,
@@ -67,8 +67,7 @@ class TranslatedField(object):
                 *args,
                 **dict(kwargs, **self._specific.get(language_code, {})),
             )
-            f.creation_counter = self.creation_counter
-            self.creation_counter += 1
+            f.creation_counter = self.creation_counter + index
             attr = to_attribute(name, language_code)
             f.contribute_to_class(cls, attr)
             fields.append(attr)
