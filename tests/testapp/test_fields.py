@@ -125,3 +125,17 @@ class Test(TestCase):
 
         m.name_en = 'bla'
         m.full_clean()
+
+    def test_setter(self):
+        m = TestModel()
+        with override('en'):
+            m.name = 'english'
+        with override('de'):
+            m.name = 'german'
+        self.assertEqual(m.name_en, 'english')
+        self.assertEqual(m.name_de, 'german')
+
+        # I would rather not write code that prevents this...
+        with override('bla'):
+            m.name = 'blub'
+        self.assertEqual(m.name_bla, 'blub')

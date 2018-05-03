@@ -18,6 +18,11 @@ def translated_attrgetter(name):
     return lambda self: getattr(self, to_attribute(name, get_language()))
 
 
+def translated_attrsetter(name):
+    return lambda self, value:\
+        setattr(self, to_attribute(name, get_language()), value)
+
+
 def translated_attributes(*names):
     def decorator(cls):
         for name in names:
@@ -40,12 +45,14 @@ class TranslatedField(object):
             *,
             verbose_name_with_language=True,
             languages=None,
-            attrgetter=None
+            attrgetter=None,
+            attrsetter=None
     ):
         self._field = field
         self._specific = specific or {}
         self._verbose_name_with_language = verbose_name_with_language
         self._attrgetter = attrgetter or translated_attrgetter
+        self._attrsetter = attrsetter or translated_attrsetter
 
         self.languages = list(languages or (l[0] for l in settings.LANGUAGES))
 
@@ -79,8 +86,12 @@ class TranslatedField(object):
         self.fields = fields
         self.short_description = verbose_name
         self._getter = self._attrgetter(name)
+        self._setter = self._attrsetter(name)
 
     def __get__(self, obj, objtype=None):
         if obj is None:
             return self
         return self._getter(obj)
+
+    def __set__(self, obj, value):
+        self._setter(obj, value)
