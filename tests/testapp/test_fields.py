@@ -58,7 +58,19 @@ class Test(TestCase):
         )
         self.assertContains(
             response,
-            'Other [en]',
+            'Other field [en]',
+        )
+
+        TestModel.objects.create()
+
+        response = client.get('/admin/testapp/testmodel/')
+        self.assertContains(
+            response,
+            '<span>Name</span>',
+        )
+        self.assertContains(
+            response,
+            '<span>Other field</span>',
         )
 
     def test_custom_languages(self):

@@ -10,7 +10,7 @@ class TestModel(models.Model):
         models.CharField(_('name'), max_length=200),
     )
     other = TranslatedField(
-        models.CharField(_('other'), max_length=200, blank=True),
+        models.CharField(_('other field'), max_length=200, blank=True),
     )
 
     def __str__(self):
