@@ -5,6 +5,10 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+
+`0.3`_ (2018-05-03)
+~~~~~~~~~~~~~~~~~~~
+
 - Added documentation.
 - Converted the ``TranslatedField`` into a descriptor, and made
   available a few useful fields on the descriptor instance.
