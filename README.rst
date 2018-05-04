@@ -24,14 +24,8 @@ translated fields to your models::
         question = TranslatedField(
             models.CharField(_('question'), max_length=200),
         )
-        answer1 = TranslatedField(
-            models.CharField(_('answer 1'), max_length=200),
-        )
-        answer2 = TranslatedField(
-            models.CharField(_('answer 2'), max_length=200),
-        )
-        answer3 = TranslatedField(
-            models.CharField(_('answer 3'), max_length=200, blank=True),
+        answer = TranslatedField(
+            models.CharField(_('answer'), max_length=200),
         )
 
         def __str__(self):
@@ -42,8 +36,17 @@ Basic usage
 ===========
 
 Model fields are automatically created from the field passed to
-``TranslatedField``, one field per language. The ``TranslatedField``
-instance is a `descriptor
+``TranslatedField``, one field per language.  For an example setting of
+``LANGUAGES = (('en', 'English'), ('de', 'German'), ('fr', 'French')``,
+the following list of fields would be created: ``question_en``,
+``question_de``, ``question_fr``, ``answer_en``, ``answer_de``,
+``answer_fr``.
+
+This implies that when changing ``LANGUAGES`` you'll have to run
+``makemigrations`` and ``migrate`` too.
+
+No ``question`` or ``answer`` model field is created The
+``TranslatedField`` instance is a `descriptor
 <https://docs.python.org/3/howto/descriptor.html>`_ which by default
 acts as a property for the current language's field::
 
