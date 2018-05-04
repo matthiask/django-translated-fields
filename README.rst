@@ -73,10 +73,19 @@ Overriding attribute access (defaults, fallbacks)
 =================================================
 
 There are no default values or fallbacks, only a wrapped attribute
-access. This can be overridden by specifying your own ``attrgetter`` and
-``attrsetter`` functions. E.g. you may want to specify a fallback to the
-default language (and at the same time allow leaving other languages'
-fields empty)::
+access. The default attribute getter and setter functions simply return
+or set the field for the current language (as returned by
+``django.utils.translation.get_language``). Note that the default getter
+and setter do not check whether a language is activated at all, or
+whether the field even exists (which might be the case when overriding
+``languages``). This implies that the getter might raise an
+``AttributeError`` and the setter might set an attribute on the model
+instance not related to a model field.
+
+Both getters and setters can be overridden by specifying your own
+``attrgetter`` and ``attrsetter`` functions. E.g. you may want to
+specify a fallback to the default language (and at the same time allow
+leaving other languages' fields empty)::
 
     from django.conf import settings
     from translated_fields import TranslatedField, to_attribute
@@ -100,9 +109,14 @@ fields empty)::
             attrgetter=fallback_to_default,
         )
 
-Custom ``attrsetter`` functions are also possible. The difference is
-that the function passed as ``attrsetter`` should return a function
-which accepts two arguments, the model instance and a value.
+A custom ``attrsetter`` which always sets all fields follows (probably
+not very useful, but hopefully instructive)::
+
+    def set_all_fields(name):
+        def setter(self, value):
+            for field in getattr(self.__class__, name).fields:
+                setattr(self, field, value)
+        return setter
 
 
 Disabling ``verbose_name`` manipulation
