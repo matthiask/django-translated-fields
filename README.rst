@@ -11,9 +11,11 @@ Django model translation without magic-inflicted pain.
 Installation and usage
 ======================
 
-After installing ``django-translated-fields`` into your Python
-environment all you have to do is define ``LANGUAGES`` and adding
-translated fields to your models::
+After installing ``django-translated-fields`` in your Python
+environment all you have to do is define ``LANGUAGES`` in your
+settings and add translated fields to your models:
+
+.. code-block:: python
 
     from django.db import models
     from django.utils.translation import gettext_lazy as _
@@ -36,19 +38,21 @@ Basic usage
 ===========
 
 Model fields are automatically created from the field passed to
-``TranslatedField``, one field per language.  For an example setting of
-``LANGUAGES = (('en', 'English'), ('de', 'German'), ('fr', 'French')``,
+``TranslatedField``, one field per language.  For example, with
+``LANGUAGES = [('en', 'English'), ('de', 'German'), ('fr', 'French')]``,
 the following list of fields would be created: ``question_en``,
 ``question_de``, ``question_fr``, ``answer_en``, ``answer_de``,
-``answer_fr``.
+and ``answer_fr``.
 
 This implies that when changing ``LANGUAGES`` you'll have to run
 ``makemigrations`` and ``migrate`` too.
 
-No ``question`` or ``answer`` model field is created The
+No ``question`` or ``answer`` model field is actually created. The
 ``TranslatedField`` instance is a `descriptor
 <https://docs.python.org/3/howto/descriptor.html>`_ which by default
-acts as a property for the current language's field::
+acts as a property for the current language's field:
+
+.. code-block:: python
 
     from django.utils.translation import override
 
@@ -60,6 +64,7 @@ acts as a property for the current language's field::
 
     with override('en'):
         assert question.question == 'How are you?'
+
     with override('de'):
         assert question.question == 'Wie geht es Dir?'
 
@@ -85,7 +90,9 @@ instance not related to a model field.
 Both getters and setters can be overridden by specifying your own
 ``attrgetter`` and ``attrsetter`` functions. E.g. you may want to
 specify a fallback to the default language (and at the same time allow
-leaving other languages' fields empty)::
+leaving other languages' fields empty):
+
+.. code-block:: python
 
     from django.conf import settings
     from translated_fields import TranslatedField, to_attribute
@@ -110,7 +117,9 @@ leaving other languages' fields empty)::
         )
 
 A custom ``attrsetter`` which always sets all fields follows (probably
-not very useful, but hopefully instructive)::
+not very useful, but hopefully instructive):
+
+.. code-block:: python
 
     def set_all_fields(name):
         def setter(self, value):
@@ -158,7 +167,9 @@ Translated attributes without model field creation
 
 If model field creation is not desired, you may also use the
 ``translated_attributes`` class decorator. This only creates the
-attribute getter property::
+attribute getter property:
+
+.. code-block:: python
 
     from translated_fields import translated_attributes
 
