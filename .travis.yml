@@ -16,3 +16,13 @@ install:
 - pip install $REQ
 - python setup.py install
 script: cd tests && ./manage.py test testapp && cd ..
+
+jobs:
+  include:
+    - stage: style
+      install: skip
+      script:
+        - pip install flake8 isort unify
+        - flake8 .
+        - isort --check-only --recursive --diff translated_fields tests
+        - unify --check-only --recursive --quote '"' translated_fields tests
