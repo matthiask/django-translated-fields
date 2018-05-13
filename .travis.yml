@@ -20,6 +20,7 @@ script: cd tests && ./manage.py test testapp && cd ..
 jobs:
   include:
     - stage: style
+      env: REQ=none
       install: skip
       script:
         - pip install flake8 isort unify
