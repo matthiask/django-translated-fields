@@ -5,6 +5,10 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Switched the preferred quote to ``"`` and started using `black
+  <https://pypi.org/project/black/>`_ to automatically format Python
+  code.
+
 
 `0.3`_ (2018-05-03)
 ~~~~~~~~~~~~~~~~~~~

@@ -7,14 +7,17 @@ from django.utils.translation import get_language
 
 
 __all__ = (
-    'TranslatedField', 'to_attribute', 'translated_attrgetter',
-    'translated_attrsetter', 'translated_attributes',
+    "TranslatedField",
+    "to_attribute",
+    "translated_attrgetter",
+    "translated_attrsetter",
+    "translated_attributes",
 )
 
 
 def to_attribute(name, language_code=None):
     language = language_code or get_language()
-    return re.sub(r'[^a-z0-9_]+', '_', ('%s_%s' % (name, language)).lower())
+    return re.sub(r"[^a-z0-9_]+", "_", ("%s_%s" % (name, language)).lower())
 
 
 def translated_attrgetter(name):
@@ -26,22 +29,32 @@ def translated_attrsetter(name):
 
 
 def translated_attributes(*names, attrgetter=translated_attrgetter):
+
     def decorator(cls):
         for name in names:
             setattr(cls, name, property(attrgetter(name)))
         return cls
+
     return decorator
 
 
 @keep_lazy_text
 def verbose_name_with_language(verbose_name, language_code):
-    return '%s [%s]' % (verbose_name, language_code)
+    return "%s [%s]" % (verbose_name, language_code)
 
 
 class TranslatedField(object):
-    def __init__(self, field, specific=None, *,
-                 verbose_name_with_language=True,
-                 languages=None, attrgetter=None, attrsetter=None):
+
+    def __init__(
+        self,
+        field,
+        specific=None,
+        *,
+        verbose_name_with_language=True,
+        languages=None,
+        attrgetter=None,
+        attrsetter=None
+    ):
         self._field = field
         self._specific = specific or {}
         self._verbose_name_with_language = verbose_name_with_language
@@ -56,16 +69,15 @@ class TranslatedField(object):
 
     def contribute_to_class(self, cls, name):
         _n, _p, args, kwargs = self._field.deconstruct()
-        verbose_name = kwargs.pop('verbose_name', name)
+        verbose_name = kwargs.pop("verbose_name", name)
         fields = []
         for index, language_code in enumerate(self.languages):
             f = self._field.__class__(
-                verbose_name=verbose_name_with_language(
-                    verbose_name,
-                    language_code,
-                ) if self._verbose_name_with_language else verbose_name,
+                verbose_name=verbose_name_with_language(verbose_name, language_code)
+                if self._verbose_name_with_language
+                else verbose_name,
                 *args,
-                **dict(kwargs, **self._specific.get(language_code, {})),
+                **dict(kwargs, **self._specific.get(language_code, {}))
             )
             f.creation_counter = self.creation_counter + index
             attr = to_attribute(name, language_code)

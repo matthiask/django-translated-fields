@@ -1,5 +1,5 @@
 VERSION = (0, 3, 0)
-__version__ = '.'.join(map(str, VERSION))
+__version__ = ".".join(map(str, VERSION))
 
 try:
     from .fields import *  # noqa
