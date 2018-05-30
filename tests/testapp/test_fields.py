@@ -8,7 +8,6 @@ from .models import CustomLanguagesModel, SpecificModel, TestModel
 
 
 class Test(TestCase):
-
     def setUp(self):
         deactivate_all()
 

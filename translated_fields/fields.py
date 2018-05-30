@@ -29,7 +29,6 @@ def translated_attrsetter(name):
 
 
 def translated_attributes(*names, attrgetter=translated_attrgetter):
-
     def decorator(cls):
         for name in names:
             setattr(cls, name, property(attrgetter(name)))
@@ -44,7 +43,6 @@ def verbose_name_with_language(verbose_name, language_code):
 
 
 class TranslatedField(object):
-
     def __init__(
         self,
         field,
