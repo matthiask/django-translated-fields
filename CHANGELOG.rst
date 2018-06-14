@@ -5,9 +5,14 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+`0.4`_ (2018-06-14)
+~~~~~~~~~~~~~~~~~~~
+
 - Switched the preferred quote to ``"`` and started using `black
   <https://pypi.org/project/black/>`_ to automatically format Python
   code.
+- Added Python 3.4 to the test matrix.
+- Made documentation better.
 
 
 `0.3`_ (2018-05-03)
