@@ -71,9 +71,11 @@ class TranslatedField(object):
         fields = []
         for index, language_code in enumerate(self.languages):
             f = self._field.__class__(
-                verbose_name=verbose_name_with_language(verbose_name, language_code)
-                if self._verbose_name_with_language
-                else verbose_name,
+                verbose_name=(
+                    verbose_name_with_language(verbose_name, language_code)
+                    if self._verbose_name_with_language
+                    else verbose_name
+                ),
                 *args,
                 **dict(kwargs, **self._specific.get(language_code, {}))
             )
