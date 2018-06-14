@@ -5,6 +5,10 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+
+`0.5`_ (2018-06-14)
+~~~~~~~~~~~~~~~~~~~
+
 - Replaced the ``verbose_name_with_language`` option and the
   ``verbose_name`` mangling it does with ``TranslatedFieldAdmin`` which
   offers the same functionality, but restricted to the admin interface.
@@ -61,4 +65,6 @@ Change log
 .. _0.1: https://github.com/matthiask/django-translated-fields/commit/0710fc8244
 .. _0.2: https://github.com/matthiask/django-translated-fields/compare/0.1...0.2
 .. _0.3: https://github.com/matthiask/django-translated-fields/compare/0.2...0.3
-.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.3...master
+.. _0.4: https://github.com/matthiask/django-translated-fields/compare/0.3...0.4
+.. _0.5: https://github.com/matthiask/django-translated-fields/compare/0.4...0.5
+.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.5...master
