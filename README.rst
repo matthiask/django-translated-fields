@@ -154,15 +154,6 @@ not very useful, but hopefully instructive):
         return setter
 
 
-Disabling ``verbose_name`` manipulation
-=======================================
-
-By default, ``TranslatedField`` appends the language code in brackets to
-the localized fields' ``verbose_name`` attribute. If this is not desired
-for some reason, add ``verbose_name_with_language=False`` to the
-``TranslatedField`` instantiation.
-
-
 ``TranslatedField`` instance API
 ================================
 
@@ -203,6 +194,30 @@ attribute getter property:
     class Test(object):
         attribute_en = 'some value'
         attribute_de = 'some other value'
+
+
+Model admin support
+===================
+
+The ``TranslatedFieldAdmin`` class adds the respective language to the
+label of individual fields. Instead of three fields named "Question"
+you'll get the fields "Question [en]", "Question [de]" and "Question
+[fr]". It intentionally offers no functionality except for modifying the
+label of fields:
+
+.. code-block:: python
+
+    from django.contrib import admin
+    from translated_fields import TranslatedFieldAdmin
+    from .models import Question
+
+    @admin.register(Question)
+    class QuestionAdmin(TranslatedFieldAdmin, admin.ModelAdmin):
+        pass
+
+    # For inlines:
+    # class SomeInline(TranslatedFieldAdmin, admin.StackedInline):
+    #     ...
 
 
 Other features

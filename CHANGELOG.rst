@@ -5,6 +5,11 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Replaced the ``verbose_name_with_language`` option and the
+  ``verbose_name`` mangling it does with ``TranslatedFieldAdmin`` which
+  offers the same functionality, but restricted to the admin interface.
+
+
 `0.4`_ (2018-06-14)
 ~~~~~~~~~~~~~~~~~~~
 

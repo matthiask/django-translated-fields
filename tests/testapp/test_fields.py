@@ -29,6 +29,12 @@ class Test(TestCase):
         ]
         self.assertEqual(creation_counters, sorted(creation_counters))
 
+        other_en = TestModel._meta.get_field("other_en")
+        other_de = TestModel._meta.get_field("other_de")
+        with override("de"):
+            self.assertEqual(str(other_en.verbose_name), "other field")
+            self.assertEqual(str(other_de.verbose_name), "other field")
+
     def test_form_field_order(self):
         form = modelform_factory(TestModel, fields="__all__")()
         self.assertEqual(
