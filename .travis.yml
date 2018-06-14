@@ -23,7 +23,5 @@ jobs:
       env: REQ=none
       install: skip
       script:
-        - pip install flake8 isort unify
+        - pip install flake8
         - flake8 .
-        - isort --check-only --recursive --diff translated_fields tests
-        - unify --check-only --recursive --quote '"' translated_fields tests
