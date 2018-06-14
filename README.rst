@@ -74,6 +74,32 @@ acts as a property for the current language's field:
     assert question.question_fr == 'Comment vas-tu?'
 
 
+Changing field attributes per language
+======================================
+
+It is sometimes useful to have slightly differing model fields per
+language, e.g. for making the primary language mandatory. This can be
+achieved by passing a dictionary with keyword arguments per language as
+the second positional argument to ``TranslatedField``.
+
+For example, if you add a language to ``LANGUAGES`` when a site is
+already running, it might be useful to make the new language
+non-mandatory to simplify editing already existing data through Django's
+administration interface.
+
+The following example adds ``blank=True`` to the spanish field:
+
+.. code-block:: python
+
+    from translated_fields import TranslatedField
+
+    class Question(models.Model):
+        question = TranslatedField(
+            models.CharField(_('question'), max_length=200),
+            {'es': {'blank': True}},
+        )
+
+
 Overriding attribute access (defaults, fallbacks)
 =================================================
 
