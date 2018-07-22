@@ -8,6 +8,7 @@ python:
 env:
 - REQ="Django>=1.11,<2.0"
 - REQ="Django>=2.0,<2.1"
+- REQ="Django==2.1rc1"
 - REQ="https://github.com/django/django/archive/master.zip#egg=Django"
 matrix:
   allow_failures:
@@ -15,6 +16,8 @@ matrix:
   exclude:
     - python: "3.4"
       env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
+    - python: "3.4"
+      env: REQ="Django==2.1rc1"
 install:
 - pip install -U pip wheel
 - pip install $REQ
