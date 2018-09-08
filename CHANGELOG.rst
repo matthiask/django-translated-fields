@@ -5,6 +5,12 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Added an example and an explanation how to best customize the
+  administration interface when using django-translated-fields.
+- Added Django 2.1 to the Travis CI test matrix (no changes were
+  necessary for compatibility).
+- Made pull requests not following the black coding style fail.
+
 
 `0.5`_ (2018-06-14)
 ~~~~~~~~~~~~~~~~~~~
