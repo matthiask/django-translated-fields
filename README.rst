@@ -24,10 +24,10 @@ settings and add translated fields to your models:
 
     class Question(models.Model):
         question = TranslatedField(
-            models.CharField(_('question'), max_length=200),
+            models.CharField(_("question"), max_length=200),
         )
         answer = TranslatedField(
-            models.CharField(_('answer'), max_length=200),
+            models.CharField(_("answer"), max_length=200),
         )
 
         def __str__(self):
@@ -39,7 +39,7 @@ Basic usage
 
 Model fields are automatically created from the field passed to
 ``TranslatedField``, one field per language.  For example, with
-``LANGUAGES = [('en', 'English'), ('de', 'German'), ('fr', 'French')]``,
+``LANGUAGES = [("en", "English"), ("de", "German"), ("fr", "French")]``,
 the following list of fields would be created: ``question_en``,
 ``question_de``, ``question_fr``, ``answer_en``, ``answer_de``,
 and ``answer_fr``.
@@ -57,21 +57,21 @@ acts as a property for the current language's field:
     from django.utils.translation import override
 
     question = Question(
-        question_en='How are you?',
-        question_de='Wie geht es Dir?',
-        question_fr='Ça va?',
+        question_en="How are you?",
+        question_de="Wie geht es Dir?",
+        question_fr="Ça va?",
     )
 
-    with override('en'):
-        assert question.question == 'How are you?'
+    with override("en"):
+        assert question.question == "How are you?"
 
-    with override('de'):
-        assert question.question == 'Wie geht es Dir?'
+    with override("de"):
+        assert question.question == "Wie geht es Dir?"
 
-    with override('fr'):
-        question.question = 'Comment vas-tu?'
+    with override("fr"):
+        question.question = "Comment vas-tu?"
 
-    assert question.question_fr == 'Comment vas-tu?'
+    assert question.question_fr == "Comment vas-tu?"
 
 
 Changing field attributes per language
@@ -95,8 +95,8 @@ The following example adds ``blank=True`` to the spanish field:
 
     class Question(models.Model):
         question = TranslatedField(
-            models.CharField(_('question'), max_length=200),
-            {'es': {'blank': True}},
+            models.CharField(_("question"), max_length=200),
+            {"es": {"blank": True}},
         )
 
 
@@ -137,8 +137,8 @@ leaving other languages' fields empty):
 
     class Question(models.Model):
         question = TranslatedField(
-            models.CharField(_('question'), max_length=200, blank=True),
-            {settings.LANGUAGES[0][0]: {'blank': False}},
+            models.CharField(_("question"), max_length=200, blank=True),
+            {settings.LANGUAGES[0][0]: {"blank": False}},
             attrgetter=fallback_to_default,
         )
 
@@ -161,7 +161,7 @@ The ``TranslatedField`` descriptor has a few useful attributes (sticking
 with the model and field from the examples above):
 
 * ``Question.question.fields`` contains the names of all automatically
-  generated fields, e.g. ``['question_en', 'question_...', ...]``.
+  generated fields, e.g. ``["question_en", "question_...", ...]``.
 * ``Question.question.languages`` is the list of language codes.
 * ``Question.question.short_description`` is set to the ``verbose_name``
   of the base field, so that the translatable attribute can be nicely
@@ -190,10 +190,10 @@ attribute getter property:
 
     from translated_fields import translated_attributes
 
-    @translated_attributes('attribute', 'anything', ...)
+    @translated_attributes("attribute", "anything", ...)
     class Test(object):
-        attribute_en = 'some value'
-        attribute_de = 'some other value'
+        attribute_en = "some value"
+        attribute_de = "some other value"
 
 
 Model admin support
@@ -248,6 +248,12 @@ example showing various techniques follows:
         # Order by current language's question field:
         def get_ordering(self, request):
             return [to_attribute("question")]
+
+.. note::
+   It's strongly recommended to set the ``verbose_name`` of fields when
+   using ``TranslatedFieldAdmin``, the first argument of most model
+   fields. Otherwise, you'll get duplicated languages, e.g. "Question en
+   [en]".
 
 
 Other features
