@@ -4,6 +4,9 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Reused Django's own machinery for displaying data in the changelist
+  instead of playing catch-up ourselves.
+
 
 `0.6`_ (2018-10-17)
 ~~~~~~~~~~~~~~~~~~~
