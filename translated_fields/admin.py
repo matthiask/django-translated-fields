@@ -1,4 +1,5 @@
 from django.contrib.admin.options import BaseModelAdmin
+from django.contrib.admin.utils import display_for_field
 from django.db import models
 from django.utils.functional import lazy
 from django.utils.text import capfirst
@@ -18,12 +19,9 @@ def list_display_column(model, field_name):
         return field_name
 
     def value(instance):
-        if hasattr(instance, "get_%s_display" % db_field.name):
-            return getattr(instance, "get_%s_display" % db_field.name)()
-        return getattr(instance, field_name)
+        return display_for_field(db_field.value_from_object(instance), db_field, "-")
 
     value.admin_order_field = field_name
-    value.boolean = isinstance(db_field, models.BooleanField)
     value.short_description = lazy(
         lambda: "%s [%s]" % (capfirst(db_field.verbose_name), language_code), str
     )

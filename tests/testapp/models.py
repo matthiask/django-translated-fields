@@ -45,4 +45,6 @@ class ListDisplayModel(models.Model):
             _("choice"), max_length=3, choices=[("a", "Andrew"), ("b", "Betty")]
         )
     )
+    is_active = TranslatedField(models.BooleanField(_("is active"), default=True))
+    file = TranslatedField(models.FileField(_("file"), blank=True))
     ordering = models.IntegerField(_("ordering"), default=0)

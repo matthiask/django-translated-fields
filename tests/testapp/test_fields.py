@@ -1,5 +1,8 @@
+import re
+
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
 from django.forms.models import modelform_factory
 from django.test import Client, TestCase
 from django.utils.translation import deactivate_all, override
@@ -118,12 +121,19 @@ class Test(TestCase):
         self.assertEqual(m.name_bla, "blub")
 
     def test_list_display_columns(self):
-        ListDisplayModel.objects.create(
-            name_en="english", name_de="german", choice_en="a", choice_de="b"
+        obj = ListDisplayModel.objects.create(
+            name_en="english",
+            name_de="german",
+            choice_en="a",
+            choice_de="b",
+            is_active_de=False,
         )
+        obj.file_en.save("test.txt", ContentFile(b"Hello"), save=True)
 
         client = self.login()
         response = client.get("/admin/testapp/listdisplaymodel/")
+
+        # print(response.content.decode("utf-8"))
 
         self.assertContains(response, "<span>Stuff</span>")
         self.assertContains(response, "Name [en]")
@@ -131,3 +141,12 @@ class Test(TestCase):
 
         self.assertContains(response, "Andrew", 1)
         self.assertContains(response, "Betty", 1)
+
+        self.assertContains(response, 'img src="/static/admin/img/icon-yes.svg"', 1)
+        self.assertContains(response, 'img src="/static/admin/img/icon-no.svg"', 1)
+
+        self.assertTrue(
+            re.search(
+                rb'<a href="test(_\w+)?.txt">test(_\w+)?.txt</a>', response.content
+            )
+        )

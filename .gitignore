@@ -18,3 +18,4 @@ htmlcov
 venv
 .tox
 build
+media

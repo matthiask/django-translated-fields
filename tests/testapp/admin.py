@@ -17,6 +17,8 @@ class ListDisplayModelAdmin(admin.ModelAdmin):
         for f in [
             *models.ListDisplayModel.name.fields,
             *models.ListDisplayModel.choice.fields,
+            *models.ListDisplayModel.is_active.fields,
+            *models.ListDisplayModel.file.fields,
             "ordering",
             "stuff",
         ]
