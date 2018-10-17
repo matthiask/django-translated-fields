@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from translated_fields import TranslatedFieldAdmin, list_display_column
+from translated_fields import TranslatedFieldAdmin
 
 from . import models
 
@@ -11,17 +11,14 @@ class TestModelAdmin(TranslatedFieldAdmin, admin.ModelAdmin):
 
 
 @admin.register(models.ListDisplayModel)
-class ListDisplayModelAdmin(admin.ModelAdmin):
+class ListDisplayModelAdmin(TranslatedFieldAdmin, admin.ModelAdmin):
     list_display = [
-        list_display_column(models.ListDisplayModel, f)
-        for f in [
-            *models.ListDisplayModel.name.fields,
-            *models.ListDisplayModel.choice.fields,
-            *models.ListDisplayModel.is_active.fields,
-            *models.ListDisplayModel.file.fields,
-            "ordering",
-            "stuff",
-        ]
+        *models.ListDisplayModel.name.fields,
+        *models.ListDisplayModel.choice.fields,
+        *models.ListDisplayModel.is_active.fields,
+        *models.ListDisplayModel.file.fields,
+        "ordering",
+        "stuff",
     ]
 
     def stuff(self, instance):

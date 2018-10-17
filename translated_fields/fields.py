@@ -5,13 +5,13 @@ from django.db.models import Field
 from django.utils.translation import get_language
 
 
-__all__ = (
+__all__ = [
     "TranslatedField",
     "to_attribute",
     "translated_attrgetter",
     "translated_attrsetter",
     "translated_attributes",
-)
+]
 
 
 def to_attribute(name, language_code=None):

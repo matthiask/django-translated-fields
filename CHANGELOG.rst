@@ -6,6 +6,9 @@ Change log
 
 - Reused Django's own machinery for displaying data in the changelist
   instead of playing catch-up ourselves.
+- Moved the ``list_display_column`` helper functionality into the
+  ``TranslatedFieldAdmin`` class and made its application automatic as
+  long as you're not overriding ``get_list_display``.
 
 
 `0.6`_ (2018-10-17)
