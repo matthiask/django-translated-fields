@@ -4,6 +4,10 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+
+`0.7`_ (2018-10-17)
+~~~~~~~~~~~~~~~~~~~
+
 - Reused Django's own machinery for displaying data in the changelist
   instead of playing catch-up ourselves.
 - Moved the ``list_display_column`` helper functionality into the
@@ -87,4 +91,5 @@ Change log
 .. _0.4: https://github.com/matthiask/django-translated-fields/compare/0.3...0.4
 .. _0.5: https://github.com/matthiask/django-translated-fields/compare/0.4...0.5
 .. _0.6: https://github.com/matthiask/django-translated-fields/compare/0.5...0.6
-.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.6...master
+.. _0.7: https://github.com/matthiask/django-translated-fields/compare/0.6...0.7
+.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.7...master
