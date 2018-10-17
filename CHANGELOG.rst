@@ -9,6 +9,8 @@ Change log
 - Added Django 2.1 to the Travis CI test matrix (no changes were
   necessary for compatibility).
 - Made pull requests not following the black coding style fail.
+- Added the "production/stable" development status trove identifier.
+- Dropped Python 3.4 from the build matrix.
 
 
 `0.5`_ (2018-06-14)
