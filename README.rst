@@ -230,9 +230,7 @@ example showing various techniques follows:
 
     from django.contrib import admin
     from django.utils.translation import gettext_lazy as _
-    from translated_fields import (
-        TranslatedFieldAdmin, list_display_column, to_attribute
-    )
+    from translated_fields import TranslatedFieldAdmin, to_attribute
     from .models import Question
 
     @admin.register(Question)
@@ -245,10 +243,8 @@ example showing various techniques follows:
 
         # Show all fields in the changelist:
         list_display = [
-            # list_display_column is not necessary, but nice since it
-            # adds the language code to the changelist column titles.
-            list_display_column(f) for f in
-            [*Question.question.fields, *Question.answer.fields]
+            *Question.question.fields,
+            *Question.answer.fields
         ]
 
         # Order by current language's question field:
