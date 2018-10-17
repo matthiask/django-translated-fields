@@ -11,6 +11,8 @@ Change log
 - Made pull requests not following the black coding style fail.
 - Added the "production/stable" development status trove identifier.
 - Dropped Python 3.4 from the build matrix.
+- Added a ``list_display_column`` helper for showing language codes in
+  column titles.
 
 
 `0.5`_ (2018-06-14)

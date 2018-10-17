@@ -36,3 +36,13 @@ class SpecificModel(models.Model):
         models.CharField(_("name"), max_length=200, blank=True),
         {"en": {"blank": False}},
     )
+
+
+class ListDisplayModel(models.Model):
+    name = TranslatedField(models.CharField(_("name"), max_length=200))
+    choice = TranslatedField(
+        models.CharField(
+            _("choice"), max_length=3, choices=[("a", "Andrew"), ("b", "Betty")]
+        )
+    )
+    ordering = models.IntegerField(_("ordering"), default=0)

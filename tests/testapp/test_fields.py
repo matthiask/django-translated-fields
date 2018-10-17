@@ -4,7 +4,7 @@ from django.forms.models import modelform_factory
 from django.test import Client, TestCase
 from django.utils.translation import deactivate_all, override
 
-from .models import CustomLanguagesModel, SpecificModel, TestModel
+from .models import CustomLanguagesModel, ListDisplayModel, SpecificModel, TestModel
 
 
 class Test(TestCase):
@@ -116,3 +116,18 @@ class Test(TestCase):
         with override("bla"):
             m.name = "blub"
         self.assertEqual(m.name_bla, "blub")
+
+    def test_list_display_columns(self):
+        ListDisplayModel.objects.create(
+            name_en="english", name_de="german", choice_en="a", choice_de="b"
+        )
+
+        client = self.login()
+        response = client.get("/admin/testapp/listdisplaymodel/")
+
+        self.assertContains(response, "<span>Stuff</span>")
+        self.assertContains(response, "Name [en]")
+        self.assertContains(response, "Name [de]")
+
+        self.assertContains(response, "Andrew", 1)
+        self.assertContains(response, "Betty", 1)
