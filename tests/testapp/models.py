@@ -1,7 +1,11 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from translated_fields import TranslatedField, translated_attributes
+from translated_fields import (
+    TranslatedField,
+    TranslatedFieldWithFallback,
+    translated_attributes,
+)
 
 
 @translated_attributes("stuff")
@@ -48,3 +52,12 @@ class ListDisplayModel(models.Model):
     is_active = TranslatedField(models.BooleanField(_("is active"), default=True))
     file = TranslatedField(models.FileField(_("file"), blank=True))
     ordering = models.IntegerField(_("ordering"), default=0)
+
+
+class ModelWithFallback(models.Model):
+    required = TranslatedFieldWithFallback(
+        models.CharField(_("required"), max_length=20)
+    )
+    optional = TranslatedFieldWithFallback(
+        models.CharField(_("optional"), max_length=20, blank=True)
+    )

@@ -4,6 +4,12 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Added a utils module intended to contain common applications of
+  translated fields. For now, ``TranslatedFieldWithFallback`` creates a
+  field where all languages but the primary language (the first language
+  in ``LANGUAGES``) are optional and and fall back to the field in the
+  primary language if their value is falsy.
+
 
 `0.7`_ (2018-10-17)
 ~~~~~~~~~~~~~~~~~~~

@@ -7,7 +7,13 @@ from django.forms.models import modelform_factory
 from django.test import Client, TestCase
 from django.utils.translation import deactivate_all, override
 
-from .models import CustomLanguagesModel, ListDisplayModel, SpecificModel, TestModel
+from .models import (
+    CustomLanguagesModel,
+    ListDisplayModel,
+    ModelWithFallback,
+    SpecificModel,
+    TestModel,
+)
 
 
 class Test(TestCase):
@@ -150,3 +156,15 @@ class Test(TestCase):
                 rb'<a href="test(_\w+)?.txt">test(_\w+)?.txt</a>', response.content
             )
         )
+
+    def test_fallback(self):
+        self.assertFalse(ModelWithFallback._meta.get_field("required_en").blank)
+        self.assertTrue(ModelWithFallback._meta.get_field("required_de").blank)
+        self.assertTrue(ModelWithFallback._meta.get_field("optional_en").blank)
+        self.assertTrue(ModelWithFallback._meta.get_field("optional_de").blank)
+
+        obj = ModelWithFallback(required_en="bla")
+        with override("en"):
+            self.assertEqual(obj.required, "bla")
+        with override("de"):
+            self.assertEqual(obj.required, "bla")
