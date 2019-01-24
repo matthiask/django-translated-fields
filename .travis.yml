@@ -2,17 +2,32 @@ dist: xenial
 sudo: false
 language: python
 # cache: pip
-python:
-- "3.7"
-- "3.6"
-- "3.5"
-env:
-- REQ="Django>=1.11,<2.0"
-- REQ="Django>=2.0,<2.1"
-- REQ="Django>=2.1,<2.2"
-- REQ="Django>=2.2a1,<3.0"
-- REQ="https://github.com/django/django/archive/master.zip#egg=Django"
+#
+# Matrix composition:
+# Django LTS versions: All supported Python releases
+# Other versions and master branch: The newest possible Python release
 matrix:
+  include:
+    - env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
+      python: 3.7
+    - env: REQ="Django>=2.2a1,<3.0"
+      python: 3.7
+    - env: REQ="Django>=2.2a1,<3.0"
+      python: 3.6
+    - env: REQ="Django>=2.2a1,<3.0"
+      python: 3.5
+    - env: REQ="Django>=2.1,<2.2"
+      python: 3.7
+    - env: REQ="Django>=2.0,<2.1"
+      python: 3.7
+    - env: REQ="Django>=1.11,<2.0"
+      python: 3.7
+    - env: REQ="Django>=1.11,<2.0"
+      python: 3.6
+    - env: REQ="Django>=1.11,<2.0"
+      python: 3.5
+    - env: REQ="Django>=1.11,<2.0"
+      python: 3.4
   allow_failures:
     - env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
 install:
