@@ -6,28 +6,38 @@ language: python
 # Matrix composition:
 # Django LTS versions: All supported Python releases
 # Other versions and master branch: The newest possible Python release
+python:
+  - 3.7
 matrix:
+  fast_finish: true
   include:
-    - env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
-      python: 3.7
-    - env: REQ="Django>=2.2a1,<3.0"
-      python: 3.7
-    - env: REQ="Django>=2.2a1,<3.0"
-      python: 3.6
-    - env: REQ="Django>=2.2a1,<3.0"
-      python: 3.5
-    - env: REQ="Django>=2.1,<2.2"
-      python: 3.7
-    - env: REQ="Django>=2.0,<2.1"
-      python: 3.7
-    - env: REQ="Django>=1.11,<2.0"
-      python: 3.7
-    - env: REQ="Django>=1.11,<2.0"
-      python: 3.6
-    - env: REQ="Django>=1.11,<2.0"
-      python: 3.5
-    - env: REQ="Django>=1.11,<2.0"
-      python: 3.4
+    - python: 3.7
+      env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
+    - python: 3.7
+      env: REQ="Django>=2.2a1,<3.0"
+    - python: 3.6
+      env: REQ="Django>=2.2a1,<3.0"
+    - python: 3.5
+      env: REQ="Django>=2.2a1,<3.0"
+    - python: 3.7
+      env: REQ="Django>=2.1,<2.2"
+    - python: 3.7
+      env: REQ="Django>=2.0,<2.1"
+    - python: 3.7
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.6
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.5
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.4
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.7
+      env: REQ=none
+      install: skip
+      script:
+        - pip install black flake8
+        - flake8 .
+        - black --check translated_fields tests
   allow_failures:
     - env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
 install:
@@ -35,13 +45,3 @@ install:
 - pip install $REQ
 - python setup.py install
 script: cd tests && ./manage.py test testapp && cd ..
-
-jobs:
-  include:
-    - stage: style
-      env: REQ=none
-      install: skip
-      script:
-        - pip install black flake8
-        - flake8 .
-        - black --check translated_fields tests
