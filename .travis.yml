@@ -1,13 +1,16 @@
+dist: xenial
 sudo: false
-# cache: pip
 language: python
+# cache: pip
 python:
+- "3.7"
 - "3.6"
 - "3.5"
 env:
 - REQ="Django>=1.11,<2.0"
 - REQ="Django>=2.0,<2.1"
 - REQ="Django>=2.1,<2.2"
+- REQ="Django>=2.2a1,<3.0"
 - REQ="https://github.com/django/django/archive/master.zip#egg=Django"
 matrix:
   allow_failures:
