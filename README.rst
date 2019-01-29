@@ -258,6 +258,30 @@ example showing various techniques follows:
    [en]".
 
 
+Forms
+=====
+
+django-translated-fields provides a helper when you want form fields'
+labels to contain the language code. If this sounds useful to you do
+this:
+
+.. code-block:: python
+
+    from django import forms
+    from translated_fields.utils import language_code_formfield_callback
+    from .models import Question
+
+    class QuestionForm(forms.ModelForm):
+        formfield_callback = language_code_formfield_callback
+
+        class Meta:
+            model = Question
+            fields = [
+                *Question.question.fields,
+                *Question.answer.fields
+            ]
+
+
 Other features
 ==============
 
