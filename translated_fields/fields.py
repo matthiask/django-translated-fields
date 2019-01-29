@@ -1,5 +1,5 @@
 import re
-
+import copy
 from django.conf import settings
 from django.db.models import Field
 from django.utils.translation import get_language
@@ -54,7 +54,9 @@ class TranslatedField(object):
     def contribute_to_class(self, cls, name):
         _n, _p, args, kwargs = self._field.deconstruct()
         fields = []
+        original_kwargs = copy.deepcopy(kwargs)      
         for index, language_code in enumerate(self.languages):
+            kwargs.update({'verbose_name':original_kwargs.get('verbose_name', {}) + ' [' +language_code + ']'}) 
             f = self._field.__class__(
                 *args, **dict(kwargs, **self._specific.get(language_code, {}))
             )
