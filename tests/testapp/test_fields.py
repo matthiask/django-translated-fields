@@ -1,11 +1,14 @@
 import re
 
+from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.forms.models import modelform_factory
 from django.test import Client, TestCase
 from django.utils.translation import deactivate_all, override
+
+from translated_fields.utils import language_code_formfield_callback
 
 from .models import (
     CustomLanguagesModel,
@@ -168,3 +171,16 @@ class Test(TestCase):
             self.assertEqual(obj.required, "bla")
         with override("de"):
             self.assertEqual(obj.required, "bla")
+
+    def test_formfield_callback(self):
+        class Form(forms.ModelForm):
+            formfield_callback = language_code_formfield_callback
+
+            class Meta:
+                model = TestModel
+                fields = "__all__"
+
+        result = str(Form())
+
+        self.assertIn("Name [en]:", result)
+        self.assertIn("Name [de]:", result)

@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.utils.text import capfirst
 
 from .fields import TranslatedField, to_attribute
 
@@ -22,3 +23,10 @@ class TranslatedFieldWithFallback(TranslatedField):
         for language in self.languages[1:]:
             # Only the primary language is required
             self._specific.setdefault(language, {})["blank"] = True
+
+
+def language_code_formfield_callback(db_field, **kwargs):
+    language_code = getattr(db_field, "_translated_field_language_code", "")
+    if language_code:
+        kwargs["label"] = "%s [%s]" % (capfirst(db_field.verbose_name), language_code)
+    return db_field.formfield(**kwargs)
