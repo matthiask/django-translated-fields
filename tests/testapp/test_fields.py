@@ -8,7 +8,7 @@ from django.forms.models import modelform_factory
 from django.test import Client, TestCase
 from django.utils.translation import deactivate_all, override
 
-from translated_fields.utils import language_code_formfield_callback
+from translated_fields.utils import language_code_formfield_callback, reverse_field
 
 from .models import (
     CustomLanguagesModel,
@@ -184,3 +184,8 @@ class Test(TestCase):
 
         self.assertIn("Name [en]:", result)
         self.assertIn("Name [de]:", result)
+
+    def test_reverse_field(self):
+        self.assertListEqual(["name_en", "name_de"], reverse_field("name"))
+        self.assertListEqual(["name_en"], reverse_field("name", exclude=["de"]))
+        self.assertListEqual(["name_es"], reverse_field("name", languages=["es"]))
