@@ -64,19 +64,23 @@ acts as a property for the current language's field:
         question_fr="Ça va?",
     )
 
+    # The default getter automatically returns the value
+    # in the current language:
     with override("en"):
         assert question.question == "How are you?"
 
     with override("de"):
         assert question.question == "Wie geht es Dir?"
 
+    # The default setter can also be used to set the value
+    # in the current language:
     with override("fr"):
-        assert question.question = "Comment vas-tu?"
+        question.question = "Comment vas-tu?"
 
     assert question.question_fr == "Comment vas-tu?"
 
 ``TranslatedField`` has a ``fields`` attribute that returns a list of all
-the language fields created. 
+the language fields created.
 
 .. code-block:: python
 
@@ -88,7 +92,7 @@ the language fields created.
 
     assert answer.answer.fields == ["answer_en", "answer_de", "answer_fr"]
 
-For more attributes look at the *``TranslatedField`` instance API* 
+For more attributes look at the *``TranslatedField`` instance API*
 section below.
 
 Changing field attributes per language
