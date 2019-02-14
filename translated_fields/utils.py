@@ -9,10 +9,18 @@ __all__ = ["TranslatedFieldWithFallback", "fallback_to_default"]
 
 def fallback_to_default(name):
     def getter(self):
-        return getattr(self, to_attribute(name)) or getattr(
-            self, to_attribute(name, settings.LANGUAGES[0][0])
+        return (
+            getattr(self, to_attribute(name))
+            or getattr(self, to_attribute(name, settings.LANGUAGES[0][0]))
+            or next(
+                (
+                    getattr(self, to_attribute(name, language[0]))
+                    for language in settings.LANGUAGES
+                    if getattr(self, to_attribute(name, language[0]))
+                ),
+                '',
+            )
         )
-
     return getter
 
 

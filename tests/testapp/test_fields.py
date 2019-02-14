@@ -166,11 +166,13 @@ class Test(TestCase):
         self.assertTrue(ModelWithFallback._meta.get_field("optional_en").blank)
         self.assertTrue(ModelWithFallback._meta.get_field("optional_de").blank)
 
-        obj = ModelWithFallback(required_en="bla")
+        obj = ModelWithFallback(required_en="bla", optional_de="chic")
         with override("en"):
             self.assertEqual(obj.required, "bla")
+            self.assertEqual(obj.optional, "chic")
         with override("de"):
             self.assertEqual(obj.required, "bla")
+            self.assertEqual(obj.optional, "chic")
 
     def test_formfield_callback(self):
         class Form(forms.ModelForm):
