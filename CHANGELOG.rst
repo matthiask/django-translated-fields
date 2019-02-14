@@ -7,11 +7,20 @@ Change log
 - Added a utils module intended to contain common applications of
   translated fields. For now, ``TranslatedFieldWithFallback`` creates a
   field where all languages but the primary language (the first language
-  in ``LANGUAGES``) are optional and and fall back to the field in the
+  in ``LANGUAGES`` resp. the first entry in the ``languages`` argument
+  if given) are optional and and fall back to the field in the
   primary language if their value is falsy.
 - Added a ``fallback_to_any`` translated attribute getter which returns
   either the attribute in the current language or in any of the
   languages.
+- ``fallback_to_default`` and by extension
+  ``TranslatedFieldWithFallback`` no longer fall back to the first entry
+  in ``SETTINGS`` but to the fields' first language (which is the same
+  except when overriding the ``languages`` list in the
+  ``TranslatedField`` instantiation).
+- Added a ``field`` keyword argument to the attrgetter and attrsetter
+  calls. If an existing custom getter or setter does not support the
+  argument you'll get a deprecation warning.
 
 
 `0.7`_ (2018-10-17)
