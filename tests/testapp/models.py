@@ -6,6 +6,7 @@ from translated_fields import (
     TranslatedFieldWithFallback,
     translated_attributes,
 )
+from translated_fields.utils import fallback_to_any
 
 
 @translated_attributes("stuff")
@@ -60,4 +61,11 @@ class ModelWithFallback(models.Model):
     )
     optional = TranslatedFieldWithFallback(
         models.CharField(_("optional"), max_length=20, blank=True)
+    )
+
+
+class ModelWithAnyFallback(models.Model):
+    optional = TranslatedField(
+        models.CharField(_("optional"), max_length=20, blank=True),
+        attrgetter=fallback_to_any,
     )
