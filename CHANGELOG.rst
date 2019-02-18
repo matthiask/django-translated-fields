@@ -9,6 +9,9 @@ Change log
   field where all languages but the primary language (the first language
   in ``LANGUAGES``) are optional and and fall back to the field in the
   primary language if their value is falsy.
+- Added a ``fallback_to_any`` translated attribute getter which returns
+  either the attribute in the current language or in any of the
+  languages.
 
 
 `0.7`_ (2018-10-17)
