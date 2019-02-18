@@ -16,6 +16,21 @@ def fallback_to_default(name):
     return getter
 
 
+def fallback_to_any(name):
+    def getter(self):
+        languages = getattr(self.__class__, name).languages
+        current = getattr(self, to_attribute(name))
+
+        return current or next(
+            filter(
+                None,
+                (getattr(self, to_attribute(name, language)) for language in languages),
+            )
+        )
+
+    return getter
+
+
 class TranslatedFieldWithFallback(TranslatedField):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("attrgetter", fallback_to_default)

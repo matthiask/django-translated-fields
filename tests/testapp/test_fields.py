@@ -14,6 +14,7 @@ from .models import (
     CustomLanguagesModel,
     ListDisplayModel,
     ModelWithFallback,
+    ModelWithAnyFallback,
     SpecificModel,
     TestModel,
 )
@@ -171,6 +172,19 @@ class Test(TestCase):
             self.assertEqual(obj.required, "bla")
         with override("de"):
             self.assertEqual(obj.required, "bla")
+
+    def test_fallback_to_any(self):
+        obj = ModelWithAnyFallback(optional_de="chic")
+        with override("en"):
+            self.assertEqual(obj.optional, "chic")
+        with override("de"):
+            self.assertEqual(obj.optional, "chic")
+
+        obj.optional_en = "chic-en"
+        with override("en"):
+            self.assertEqual(obj.optional, "chic-en")
+        with override("de"):
+            self.assertEqual(obj.optional, "chic")
 
     def test_formfield_callback(self):
         class Form(forms.ModelForm):
