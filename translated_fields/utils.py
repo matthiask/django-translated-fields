@@ -25,7 +25,8 @@ def fallback_to_any(name):
             filter(
                 None,
                 (getattr(self, to_attribute(name, language)) for language in languages),
-            )
+            ),
+            "",
         )
 
     return getter

@@ -186,6 +186,12 @@ class Test(TestCase):
         with override("de"):
             self.assertEqual(obj.optional, "chic")
 
+        obj = ModelWithAnyFallback()
+        with override("en"):
+            self.assertEqual(obj.optional, "")
+        with override("de"):
+            self.assertEqual(obj.optional, "")
+
     def test_formfield_callback(self):
         class Form(forms.ModelForm):
             formfield_callback = language_code_formfield_callback
