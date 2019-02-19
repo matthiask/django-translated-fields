@@ -4,7 +4,12 @@ from django.utils.text import capfirst
 from .fields import TranslatedField, to_attribute
 
 
-__all__ = ["TranslatedFieldWithFallback", "fallback_to_default"]
+__all__ = [
+    "TranslatedFieldWithFallback",
+    "fallback_to_default",
+    "fallback_to_any",
+    "language_code_formfield_callback",
+]
 
 
 def fallback_to_default(name):
