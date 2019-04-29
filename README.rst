@@ -273,7 +273,10 @@ example showing various techniques follows:
 .. note::
    It's strongly recommended to set the ``verbose_name`` of fields when
    using ``TranslatedFieldAdmin``, the first argument of most model
-   fields. Otherwise, you'll get duplicated languages, e.g. "Question en
+   fields. As example relating to the `question model
+   <https://github.com/matthiask/django-translated-fields#installation-and-usage>`_,
+   use ``verbose_name="Question"`` instead ``_("question")``.
+   Otherwise, you'll get duplicated languages, e.g. "Question en
    [en]".
 
 
