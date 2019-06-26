@@ -54,6 +54,17 @@ class Test(TestCase):
             list(form.fields), ["name_en", "name_de", "other_en", "other_de"]
         )
 
+    def test_translated_fields(self):
+        m = TestModel()
+        with override(None):
+            self.assertRaises(AttributeError, lambda: m.name)
+        with override("en"):
+            self.assertEqual(m.name, m.name_en)
+        with override("de"):
+            self.assertEqual(m.name, m.name_de)
+        with override("bla"):
+            self.assertRaises(AttributeError, lambda: m.name)
+
     def test_translated_attributes(self):
         m = TestModel()
         with override(None):
