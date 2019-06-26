@@ -32,7 +32,7 @@ matrix:
     - python: 3.4
       env: REQ="Django>=1.11,<2.0"
     - python: 3.7
-      env: REQ=none
+      env: REQ="black flake8"
       install: skip
       script:
         - pip install black flake8
