@@ -4,6 +4,8 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Added an optional ``field`` argument to the ``attrgetter`` and
+  ``attrsetter`` functions.
 - Added a utils module intended to contain common applications of
   translated fields. For now, ``TranslatedFieldWithFallback`` creates a
   field where all languages but the primary language (the first language

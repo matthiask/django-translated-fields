@@ -22,7 +22,12 @@ def to_attribute(name, language_code=None):
 
 
 def translated_attrgetter(name, field):
-    return lambda self: getattr(self, to_attribute(name))
+    return lambda self: getattr(
+        self,
+        to_attribute(
+            name, field.languages[0] if get_language() is None else get_language()
+        ),
+    )
 
 
 def translated_attrsetter(name, field):

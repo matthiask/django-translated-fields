@@ -57,7 +57,7 @@ class Test(TestCase):
     def test_translated_fields(self):
         m = TestModel()
         with override(None):
-            self.assertRaises(AttributeError, lambda: m.name)
+            self.assertEqual(m.name, m.name_en)
         with override("en"):
             self.assertEqual(m.name, m.name_en)
         with override("de"):
