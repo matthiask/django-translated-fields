@@ -23,7 +23,7 @@ class TestModel(models.Model):
     stuff_de = "ger"
 
 
-def custom_attrgetter(name):
+def custom_attrgetter(name, field):
     # Nonsense example.
     return lambda self: self.name_fr or self.name_it or "NO VALUE"
 

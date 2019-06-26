@@ -20,15 +20,17 @@ def fallback_to_default(name, field):
     return getter
 
 
-def fallback_to_any(name):
+def fallback_to_any(name, field):
     def getter(self):
-        languages = getattr(self.__class__, name).languages
         current = getattr(self, to_attribute(name))
 
         return current or next(
             filter(
                 None,
-                (getattr(self, to_attribute(name, language)) for language in languages),
+                (
+                    getattr(self, to_attribute(name, language))
+                    for language in field.languages
+                ),
             ),
             "",
         )
