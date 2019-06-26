@@ -21,18 +21,18 @@ def to_attribute(name, language_code=None):
     return re.sub(r"[^a-z0-9_]+", "_", ("%s_%s" % (name, language)).lower())
 
 
-def translated_attrgetter(name):
+def translated_attrgetter(name, field):
     return lambda self: getattr(self, to_attribute(name))
 
 
-def translated_attrsetter(name):
+def translated_attrsetter(name, field):
     return lambda self, value: setattr(self, to_attribute(name), value)
 
 
 def translated_attributes(*names, attrgetter=translated_attrgetter):
     def decorator(cls):
         for name in names:
-            setattr(cls, name, property(attrgetter(name)))
+            setattr(cls, name, property(attrgetter(name, None)))
         return cls
 
     return decorator
