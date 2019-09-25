@@ -1,6 +1,6 @@
 from django.contrib.admin.options import BaseModelAdmin
 from django.contrib.admin.utils import display_for_field
-from django.db.models import FieldDoesNotExist
+from django.core.exceptions import FieldDoesNotExist
 from django.utils.text import capfirst
 
 
