@@ -170,7 +170,8 @@ class Test(TestCase):
 
         self.assertTrue(
             re.search(
-                rb'<a href="test(_\w+)?.txt">test(_\w+)?.txt</a>', response.content
+                rb'<a href="/media/test(_\w+)?.txt">test(_\w+)?.txt</a>',
+                response.content,
             )
         )
 
