@@ -65,7 +65,7 @@ class TranslatedField(object):
         self._specific = specific or {}
         self._attrgetter = attrgetter or translated_attrgetter
         self._attrsetter = attrsetter or translated_attrsetter
-        self.languages = list(languages or (l[0] for l in settings.LANGUAGES))
+        self.languages = list(languages or (lang[0] for lang in settings.LANGUAGES))
 
         # Make space for our fields. Can be removed when dropping support
         # for Python<3.6
