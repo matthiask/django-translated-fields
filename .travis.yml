@@ -28,18 +28,6 @@ matrix:
     - python: 3.5
       env: REQ="Django>=2.2,<3.0"
     - python: 3.7
-      env: REQ="Django>=2.1,<2.2"
-    - python: 3.7
-      env: REQ="Django>=2.0,<2.1"
-    - python: 3.7
-      env: REQ="Django>=1.11,<2.0"
-    - python: 3.6
-      env: REQ="Django>=1.11,<2.0"
-    - python: 3.5
-      env: REQ="Django>=1.11,<2.0"
-    - python: 3.4
-      env: REQ="Django>=1.11,<2.0"
-    - python: 3.7
       env: REQ="black flake8"
       install: skip
       script:
