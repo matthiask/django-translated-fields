@@ -25,8 +25,6 @@ matrix:
       env: REQ="Django>=2.2,<3.0"
     - python: 3.6
       env: REQ="Django>=2.2,<3.0"
-    - python: 3.5
-      env: REQ="Django>=2.2,<3.0"
     - python: 3.7
       env: REQ="black flake8"
       install: skip
