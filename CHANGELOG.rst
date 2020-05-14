@@ -5,6 +5,17 @@ Change log
 ~~~~~~~~~~~~~~~
 
 
+`0.9`_ (2020-05-14)
+~~~~~~~~~~~~~~~~~~~
+
+- Changed ``fallback_to_any`` to also accept the ``field`` as an
+  argument, which avoids warnings.
+- Added Django 3.1 to the matrix, dropped unmaintained Django versions
+  (all versions < 2.2).
+- Fixed a compatibility problem with Django 3.1 by importing
+  ``FieldDoesNotExist`` from ``django.core.exceptions``.
+
+
 `0.8`_ (2019-06-26)
 ~~~~~~~~~~~~~~~~~~~
 
@@ -117,4 +128,5 @@ Change log
 .. _0.6: https://github.com/matthiask/django-translated-fields/compare/0.5...0.6
 .. _0.7: https://github.com/matthiask/django-translated-fields/compare/0.6...0.7
 .. _0.8: https://github.com/matthiask/django-translated-fields/compare/0.7...0.8
-.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.8...master
+.. _0.9: https://github.com/matthiask/django-translated-fields/compare/0.8...0.9
+.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.9...master
