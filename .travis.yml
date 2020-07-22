@@ -11,12 +11,14 @@ python:
 matrix:
   fast_finish: true
   include:
-    - python: 3.7
+    - python: 3.8
       env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
+    - python: 3.8
+      env: REQ="Django>=3.1rc1,<3.2"
     - python: 3.7
-      env: REQ="Django>=3.1a1,<3.2"
+      env: REQ="Django>=3.1rc1,<3.2"
     - python: 3.6
-      env: REQ="Django>=3.1a1,<3.2"
+      env: REQ="Django>=3.1rc1,<3.2"
     - python: 3.7
       env: REQ="Django>=3.0,<3.1"
     - python: 3.6
@@ -25,7 +27,7 @@ matrix:
       env: REQ="Django>=2.2,<3.0"
     - python: 3.6
       env: REQ="Django>=2.2,<3.0"
-    - python: 3.7
+    - python: 3.8
       env: REQ="black flake8"
       install: skip
       script:
