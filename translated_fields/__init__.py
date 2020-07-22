@@ -2,7 +2,7 @@ VERSION = (0, 9, 0)
 __version__ = ".".join(map(str, VERSION))
 
 try:
-    import django
+    import django  # noqa
 except ModuleNotFoundError:  # pragma: no cover
     pass
 else:
