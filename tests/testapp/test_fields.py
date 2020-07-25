@@ -82,11 +82,31 @@ class Test(TestCase):
         self.assertContains(response, "Name [de]")
         self.assertContains(response, "Other field [en]")
 
-        TestModel.objects.create()
+        m = TestModel.objects.create()
 
         response = client.get("/admin/testapp/testmodel/")
         self.assertContains(response, "<span>Name</span>")
         self.assertContains(response, "<span>Other field</span>")
+
+        self.assertContains(response, "Name [en]</a>")
+        self.assertContains(response, "Name [de]</a>")
+
+        self.assertContains(
+            response,
+            '<th class="field-name_en"><a'
+            ' href="/admin/testapp/testmodel/{}/change/"></a></th>'.format(m.id),
+            html=True,
+        )
+        self.assertContains(response, 'id="id_form-0-name_de"')
+
+        response = client.get("/admin/testapp/testmodel/{}/change/".format(m.id))
+        self.assertContains(
+            response,
+            '<div><label>Other field [en]:</label><div class="readonly"></div></div>',
+            html=True,
+        )
+
+        # print(response, response.content.decode("utf-8"))
 
     def test_custom_languages(self):
         m = CustomLanguagesModel()
