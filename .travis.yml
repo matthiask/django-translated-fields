@@ -38,6 +38,6 @@ matrix:
     - env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
 install:
 - pip install -U pip wheel
-- pip install $REQ
+- pip install $REQ 'contextvars;python_version<"3.7"'
 - python setup.py install
 script: cd tests && ./manage.py test testapp && cd ..
