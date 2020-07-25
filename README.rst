@@ -82,16 +82,35 @@ the language fields created.
 
 .. code-block:: python
 
-    answer = Question(
-        answer_en="Very well!",
-        answer_de="Gut!",
-        answer_fr="Ça va bien!"
-    )
-
-    assert answer.answer.fields == ["answer_en", "answer_de", "answer_fr"]
+    assert Question.answer.fields == ["answer_en", "answer_de", "answer_fr"]
 
 For more attributes look at the *``TranslatedField`` instance API*
 section below.
+
+``question`` and ``answer`` can only be used with model instances, they
+do not exist in the database. If you want to use queryset methods which
+reference individual translated fields you have to use language-specific
+field names yourself. If you wanted to fetch only the english question
+and answer fields you could do this as follows:
+
+.. code-block:: python
+
+    questions = Question.objects.values_list("question_en", "answer_en")
+
+Or better yet, using the ``to_attribute`` helper which automatically
+uses the active language (if you don't pass a specific language code as
+its second argument):
+
+.. code-block:: python
+
+    from django.utils.translation import override
+    from translated_fields import to_attribute
+
+    with override("en"):
+        questions = Question.objects.values_list(
+            to_attribute("question"), to_attribute("answer")
+        )
+
 
 Changing field attributes per language
 ======================================
