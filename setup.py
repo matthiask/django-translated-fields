@@ -40,5 +40,5 @@ setup(
         "Topic :: Software Development :: Libraries :: Application Frameworks",
     ],
     zip_safe=False,
-    install_requires=["Django>=1.11"],
+    install_requires=["Django>=2.2", 'contextvars;python_version<"3.7"'],
 )
