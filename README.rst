@@ -179,6 +179,23 @@ leaving other languages' fields empty):
             attrgetter=fallback_to_default,
         )
 
+Maybe you're using locales with region codes such as ``fr-fr`` where you
+want to fall back to the language without a region code. An example
+``attrgetter`` implementation follows:
+
+.. code-block:: python
+
+    from translated_fields import to_attribute
+
+    def fallback_to_all_regions(name, field):
+        def getter(self):
+            value = getattr(self, to_attribute(name), None)
+            if value:
+                return value
+            return getattr(self, to_attribute(name, get_language().split("-")[0]))
+
+        return getter
+
 A custom ``attrsetter`` which always sets all fields follows (probably
 not very useful, but hopefully instructive):
 
