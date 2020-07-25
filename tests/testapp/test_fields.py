@@ -82,7 +82,7 @@ class Test(TestCase):
         self.assertContains(response, "Name [de]")
         self.assertContains(response, "Other field [en]")
 
-        m = TestModel.objects.create()
+        m = TestModel.objects.create(name_en="Test")
 
         response = client.get("/admin/testapp/testmodel/")
         self.assertContains(response, "<span>Name</span>")
@@ -94,7 +94,7 @@ class Test(TestCase):
         self.assertContains(
             response,
             '<th class="field-name_en"><a'
-            ' href="/admin/testapp/testmodel/{}/change/"></a></th>'.format(m.id),
+            ' href="/admin/testapp/testmodel/{}/change/">Test</a></th>'.format(m.id),
             html=True,
         )
         self.assertContains(response, 'id="id_form-0-name_de"')
