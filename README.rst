@@ -347,8 +347,8 @@ a block:
             return render(request, "...", {"form": form})
 
 Please note that the response has to be rendered within the
-``show_language_code`` block. This doesn't happen by default when using
-Django's ``TemplateResponse`` objects.
+``show_language_code`` block. This doesn't happen automatically when
+using Django's ``TemplateResponse`` objects.
 
 
 Other features
