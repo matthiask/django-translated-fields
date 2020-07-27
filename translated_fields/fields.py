@@ -25,7 +25,7 @@ _show_language_code = contextvars.ContextVar("show_language_code")
 
 
 @contextmanager
-def show_language_code(show=True):
+def show_language_code(show):
     token = _show_language_code.set(show)
     yield
     _show_language_code.reset(token)

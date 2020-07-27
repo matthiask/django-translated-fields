@@ -334,6 +334,23 @@ this:
             ]
 
 
+You may also globally configure language code labels to be shown within
+a block:
+
+.. code-block:: python
+
+    from translated_fields import show_language_code
+
+    def view(request):
+        form = ...
+        with show_language_code(True):
+            return render(request, "...", {"form": form})
+
+Please note that the response has to be rendered within the
+``show_language_code`` block. This doesn't happen by default when using
+Django's ``TemplateResponse`` objects.
+
+
 Other features
 ==============
 
