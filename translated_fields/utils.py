@@ -13,7 +13,7 @@ __all__ = [
 
 def fallback_to_default(name, field):
     def getter(self):
-        return getattr(self, to_attribute(name)) or getattr(
+        return getattr(self, to_attribute(name), None) or getattr(
             self, to_attribute(name, field.languages[0])
         )
 
@@ -22,7 +22,7 @@ def fallback_to_default(name, field):
 
 def fallback_to_any(name, field):
     def getter(self):
-        current = getattr(self, to_attribute(name))
+        current = getattr(self, to_attribute(name), None)
 
         return current or next(
             filter(

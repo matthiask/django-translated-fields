@@ -63,6 +63,9 @@ class ModelWithFallback(models.Model):
         models.CharField(_("optional"), max_length=20, blank=True)
     )
 
+    def __str__(self):
+        return self.required
+
 
 class ModelWithAnyFallback(models.Model):
     optional = TranslatedField(

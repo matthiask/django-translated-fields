@@ -211,6 +211,8 @@ class Test(TestCase):
             self.assertEqual(obj.required, "bla")
         with override("de"):
             self.assertEqual(obj.required, "bla")
+        with override(None):
+            self.assertEqual(obj.required, "bla")
 
     def test_fallback_to_any(self):
         obj = ModelWithAnyFallback(optional_de="chic")
