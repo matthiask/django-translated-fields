@@ -23,17 +23,13 @@ def fallback_to_default(name, field):
 def fallback_to_any(name, field):
     def getter(self):
         current = getattr(self, to_attribute(name), None)
-
-        return current or next(
-            filter(
-                None,
-                (
-                    getattr(self, to_attribute(name, language))
-                    for language in field.languages
-                ),
-            ),
-            "",
-        )
+        if current:
+            return current
+        for language in field.languages:
+            value = getattr(self, to_attribute(name, language))
+            if value:
+                return value
+        return ""
 
     return getter
 
