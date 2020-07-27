@@ -10,11 +10,13 @@ class TranslatedFieldAdmin(BaseModelAdmin):
     def changelist_view(self, *args, **kwargs):
         with show_language_code(True):
             response = super().changelist_view(*args, **kwargs)
-            response.render()
+            if hasattr(response, "render"):
+                response.render()
             return response
 
     def changeform_view(self, *args, **kwargs):
         with show_language_code(True):
             response = super().changeform_view(*args, **kwargs)
-            response.render()
+            if hasattr(response, "render"):
+                response.render()
             return response

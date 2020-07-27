@@ -106,6 +106,11 @@ class Test(TestCase):
             html=True,
         )
 
+        response = client.post(
+            "/admin/testapp/testmodel/add/", {"name_en": "Test", "name_de": "Test"}
+        )
+        self.assertRedirects(response, "/admin/testapp/testmodel/")
+
         # print(response, response.content.decode("utf-8"))
 
     def test_custom_languages(self):

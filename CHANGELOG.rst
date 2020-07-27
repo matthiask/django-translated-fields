@@ -4,6 +4,9 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Changed ``TranslatedFieldAdmin`` to not blindly call ``.render()`` on
+  all responses, just on those actually having such an attribute.
+
 
 `0.10`_ (2020-07-27)
 ~~~~~~~~~~~~~~~~~~~~
