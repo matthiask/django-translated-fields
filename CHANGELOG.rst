@@ -9,6 +9,7 @@ Change log
 - Changed ``fallback_to_default``, ``fallback_to_any`` and
   ``TranslatedFieldWithFallback`` to not fail with an attribute error if
   no language is active at all.
+- Renamed the main branch of the repository to ``main``.
 
 
 `0.10`_ (2020-07-27)
