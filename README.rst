@@ -2,7 +2,7 @@
 django-translated-fields
 ========================
 
-.. image:: https://travis-ci.org/matthiask/django-translated-fields.svg?branch=master
+.. image:: https://travis-ci.org/matthiask/django-translated-fields.svg?branch=main
    :target: https://travis-ci.org/matthiask/django-translated-fields
 
 Django model translation without magic-inflicted pain.

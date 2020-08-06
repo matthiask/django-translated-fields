@@ -5,7 +5,7 @@ language: python
 #
 # Matrix composition:
 # Django LTS versions: All supported Python releases
-# Other versions and master branch: The newest possible Python release
+# Other versions and main branch: The newest possible Python release
 python:
   - 3.7
 matrix:

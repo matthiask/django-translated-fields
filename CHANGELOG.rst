@@ -154,4 +154,4 @@ Change log
 .. _0.8: https://github.com/matthiask/django-translated-fields/compare/0.7...0.8
 .. _0.9: https://github.com/matthiask/django-translated-fields/compare/0.8...0.9
 .. _0.10: https://github.com/matthiask/django-translated-fields/compare/0.9...0.10
-.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.10...master
+.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.10...main
