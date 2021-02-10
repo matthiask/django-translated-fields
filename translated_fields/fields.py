@@ -91,10 +91,9 @@ class TranslatedField(object):
         self._attrsetter = attrsetter or translated_attrsetter
         self.languages = list(languages or (lang[0] for lang in settings.LANGUAGES))
 
-        # Make space for our fields. Can be removed when dropping support
-        # for Python<3.6
+        # Make space for our fields.
         self.creation_counter = Field.creation_counter
-        Field.creation_counter += len(settings.LANGUAGES)
+        Field.creation_counter += len(self.languages)
 
     def contribute_to_class(self, cls, name):
         _n, _p, args, kwargs = self._field.deconstruct()
