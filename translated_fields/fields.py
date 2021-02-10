@@ -1,14 +1,14 @@
+import contextvars
 import inspect
 import re
 import warnings
-import contextvars
 from contextlib import contextmanager
 
 from django.conf import settings
 from django.db.models import Field
-from django.utils.translation import get_language
 from django.utils.functional import lazy
 from django.utils.text import capfirst
+from django.utils.translation import get_language
 
 
 __all__ = [

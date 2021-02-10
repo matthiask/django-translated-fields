@@ -13,8 +13,8 @@ from translated_fields.utils import language_code_formfield_callback
 from .models import (
     CustomLanguagesModel,
     ListDisplayModel,
-    ModelWithFallback,
     ModelWithAnyFallback,
+    ModelWithFallback,
     SpecificModel,
     TestModel,
 )
