@@ -2,8 +2,9 @@
 django-translated-fields
 ========================
 
-.. image:: https://travis-ci.org/matthiask/django-translated-fields.svg?branch=main
-   :target: https://travis-ci.org/matthiask/django-translated-fields
+.. image:: https://github.com/matthiask/django-translated-fields/workflows/Tests/badge.svg
+    :target: https://github.com/matthiask/django-translated-fields/
+    :alt: CI Status
 
 Django model translation without magic-inflicted pain.
 

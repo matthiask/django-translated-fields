@@ -10,6 +10,13 @@ Change log
   ``TranslatedFieldWithFallback`` to not fail with an attribute error if
   no language is active at all.
 - Renamed the main branch of the repository to ``main``.
+- Switched from Travis CI to GitHub actions.
+- Verified compatibility with Python 3.9 and Django 3.2.
+- Renamed the main branch to ``main``.
+- Switched to a declarative setup (``setup.py`` and ``setup.cfg``).
+- Fixed a bug where field ordering was incorrect when overriding the
+  ``languages`` list of a translated field with a list longer than
+  ``settings.LANGUAGES``.
 
 
 `0.10`_ (2020-07-27)
