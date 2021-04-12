@@ -4,6 +4,10 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+
+`0.11`_ (2021-04-12)
+~~~~~~~~~~~~~~~~~~~~
+
 - Changed ``TranslatedFieldAdmin`` to not blindly call ``.render()`` on
   all responses, just on those actually having such an attribute.
 - Changed ``fallback_to_default``, ``fallback_to_any`` and
@@ -162,4 +166,5 @@ Change log
 .. _0.8: https://github.com/matthiask/django-translated-fields/compare/0.7...0.8
 .. _0.9: https://github.com/matthiask/django-translated-fields/compare/0.8...0.9
 .. _0.10: https://github.com/matthiask/django-translated-fields/compare/0.9...0.10
-.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.10...main
+.. _0.11: https://github.com/matthiask/django-translated-fields/compare/0.10...0.11
+.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.11...main
