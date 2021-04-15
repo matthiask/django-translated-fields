@@ -1,5 +1,4 @@
-from django.forms import Field
-from django.utils.functional import lazy
+from django.utils.functional import keep_lazy_text
 from django.utils.text import capfirst
 
 from .fields import TranslatedField, to_attribute
@@ -10,7 +9,6 @@ __all__ = [
     "fallback_to_default",
     "fallback_to_any",
     "language_code_formfield_callback",
-    "language_code_formfield_callback_lazy",
 ]
 
 
@@ -49,8 +47,7 @@ class TranslatedFieldWithFallback(TranslatedField):
 def language_code_formfield_callback(db_field, **kwargs):
     language_code = getattr(db_field, "_translated_field_language_code", "")
     if language_code:
-        kwargs["label"] = "%s [%s]" % (capfirst(db_field.verbose_name), language_code)
+        kwargs["label"] = keep_lazy_text(lambda s: "%s [%s]" % (s, language_code))(
+            capfirst(db_field.verbose_name)
+        )
     return db_field.formfield(**kwargs)
-
-
-language_code_formfield_callback_lazy = lazy(language_code_formfield_callback, Field)
