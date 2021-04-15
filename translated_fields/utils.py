@@ -52,4 +52,5 @@ def language_code_formfield_callback(db_field, **kwargs):
         kwargs["label"] = "%s [%s]" % (capfirst(db_field.verbose_name), language_code)
     return db_field.formfield(**kwargs)
 
+
 language_code_formfield_callback_lazy = lazy(language_code_formfield_callback, Field)
