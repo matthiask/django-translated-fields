@@ -23,6 +23,7 @@ LOGIN_REDIRECT_URL = "/?login=1"
 
 ROOT_URLCONF = "testapp.urls"
 LANGUAGES = (("en", "English"), ("de", "German"))
+LOCALE_PATHS = [os.path.join(BASEDIR, "locale/")]
 
 TEMPLATES = [
     {

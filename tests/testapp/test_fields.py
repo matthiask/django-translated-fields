@@ -44,9 +44,14 @@ class Test(TestCase):
 
         other_en = TestModel._meta.get_field("other_en")
         other_de = TestModel._meta.get_field("other_de")
-        with override("de"):
+
+        with override("en"):
             self.assertEqual(str(other_en.verbose_name), "other field")
             self.assertEqual(str(other_de.verbose_name), "other field")
+
+        with override("de"):
+            self.assertEqual(str(other_en.verbose_name), "anderes Feld")
+            self.assertEqual(str(other_de.verbose_name), "anderes Feld")
 
     def test_form_field_order(self):
         form = modelform_factory(TestModel, fields="__all__")()
@@ -241,7 +246,12 @@ class Test(TestCase):
                 model = TestModel
                 fields = "__all__"
 
-        result = str(Form())
+        with override("en"):
+            result = str(Form())
+            self.assertIn("Other field [en]:", result)
+            self.assertIn("Other field [de]:", result)
 
-        self.assertIn("Name [en]:", result)
-        self.assertIn("Name [de]:", result)
+        with override("de"):
+            result = str(Form())
+            self.assertIn("Anderes Feld [en]:", result)
+            self.assertIn("Anderes Feld [de]:", result)
