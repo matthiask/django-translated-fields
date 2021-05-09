@@ -6,6 +6,7 @@ Change log
 
 - Made ``language_code_formfield_callback`` preserve the lazyness of the
   underlying ``verbose_name``.
+- Stopped overwriting language-specific ``verbose_name`` values.
 
 
 `0.11`_ (2021-04-12)

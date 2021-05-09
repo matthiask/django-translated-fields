@@ -39,7 +39,7 @@ class CustomLanguagesModel(models.Model):
 class SpecificModel(models.Model):
     name = TranslatedField(
         models.CharField(_("name"), max_length=200, blank=True),
-        {"en": {"blank": False}},
+        {"en": {"blank": False}, "de": {"verbose_name": "Der Name"}},
     )
 
 

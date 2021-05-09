@@ -159,6 +159,9 @@ class Test(TestCase):
         m.name_en = "bla"
         m.full_clean()
 
+        self.assertEqual(str(m._meta.get_field("name_en").verbose_name), "name")
+        self.assertEqual(str(m._meta.get_field("name_de").verbose_name), "Der Name")
+
     def test_setter(self):
         m = TestModel()
         with override("en"):
