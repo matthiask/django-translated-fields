@@ -6,9 +6,11 @@ from translated_fields import (
     TranslatedFieldWithFallback,
     translated_attributes,
 )
-from translated_fields.utils import fallback_to_any
+from translated_fields.utils import fallback_to_any, fallback_to_default
 
 
+@translated_attributes("attr_default", attrgetter=fallback_to_default)
+@translated_attributes("attr_any", attrgetter=fallback_to_any)
 @translated_attributes("stuff")
 class TestModel(models.Model):
     name = TranslatedField(models.CharField(_("name"), max_length=200))
@@ -21,6 +23,11 @@ class TestModel(models.Model):
 
     stuff_en = "eng"
     stuff_de = "ger"
+
+    attr_default_en = "en"
+    attr_default_de = ""
+    attr_any_en = "en"
+    attr_any_de = ""
 
 
 def custom_attrgetter(name, field):
