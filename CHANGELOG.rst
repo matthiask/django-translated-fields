@@ -72,7 +72,7 @@ Change log
   languages.
 - ``fallback_to_default`` and by extension
   ``TranslatedFieldWithFallback`` no longer fall back to the first entry
-  in ``SETTINGS`` but to the fields' first language (which is the same
+  in ``LANGUAGES`` but to the fields' first language (which is the same
   except when overriding the ``languages`` list in the
   ``TranslatedField`` instantiation).
 - Added a ``field`` keyword argument to the attrgetter and attrsetter
