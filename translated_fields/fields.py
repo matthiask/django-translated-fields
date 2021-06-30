@@ -47,10 +47,7 @@ def to_attribute(name, language_code=None):
 
 def translated_attrgetter(name, field):
     return lambda self: getattr(
-        self,
-        to_attribute(
-            name, field.languages[0] if get_language() is None else get_language()
-        ),
+        self, to_attribute(name, get_language() or field.languages[0])
     )
 
 
@@ -59,9 +56,11 @@ def translated_attrsetter(name, field):
 
 
 def translated_attributes(*names, attrgetter=translated_attrgetter):
+    field = TranslatedField(None)  # Allow accessing field.languages etc. in the getter
+
     def decorator(cls):
         for name in names:
-            setattr(cls, name, property(attrgetter(name, None)))
+            setattr(cls, name, property(attrgetter(name, field)))
         return cls
 
     return decorator

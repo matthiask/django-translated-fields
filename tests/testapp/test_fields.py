@@ -1,5 +1,4 @@
 import re
-from unittest import expectedFailure
 
 from django import forms
 from django.contrib.auth.models import User
@@ -74,7 +73,7 @@ class Test(TestCase):
     def test_translated_attributes(self):
         m = TestModel()
         with override(None):
-            self.assertRaises(AttributeError, lambda: m.stuff)
+            self.assertEqual(m.stuff, m.stuff_en)
         with override("en"):
             self.assertEqual(m.stuff, m.stuff_en)
         with override("de"):
@@ -82,13 +81,11 @@ class Test(TestCase):
         with override("bla"):
             self.assertRaises(AttributeError, lambda: m.stuff)
 
-    @expectedFailure
     def test_translated_attributes_with_fallback_to_default(self):
         m = TestModel()
         with override("de"):
             self.assertEqual(m.attr_default, "en")
 
-    @expectedFailure
     def test_translated_attributes_with_fallback_to_any(self):
         m = TestModel()
         with override("de"):

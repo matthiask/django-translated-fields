@@ -7,6 +7,11 @@ Change log
 - Made ``language_code_formfield_callback`` preserve the lazyness of the
   underlying ``verbose_name``.
 - Stopped overwriting language-specific ``verbose_name`` values.
+- Made ``translated_attributes`` fall back to the first entry in
+  ``settings.LANGUAGES`` when no language is active. This previously just
+  crashed with an ``AttributeError`` (but not caused by non-existant attributes
+  on the model instance, but caused by the fact that the getter didn't receive
+  a ``TranslatedField`` instance)
 
 
 `0.11`_ (2021-04-12)
@@ -64,17 +69,16 @@ Change log
 - Added a utils module intended to contain common applications of
   translated fields. For now, ``TranslatedFieldWithFallback`` creates a
   field where all languages but the primary language (the first language
-  in ``LANGUAGES`` resp. the first entry in the ``languages`` argument
-  if given) are optional and and fall back to the field in the
-  primary language if their value is falsy.
+  in ``settings.LANGUAGES`` resp. the first entry in the ``languages`` argument
+  if given) are optional and and fall back to the field in the primary language
+  if their value is falsy.
 - Added a ``fallback_to_any`` translated attribute getter which returns
   either the attribute in the current language or in any of the
   languages.
-- ``fallback_to_default`` and by extension
-  ``TranslatedFieldWithFallback`` no longer fall back to the first entry
-  in ``LANGUAGES`` but to the fields' first language (which is the same
-  except when overriding the ``languages`` list in the
-  ``TranslatedField`` instantiation).
+- ``fallback_to_default`` and by extension ``TranslatedFieldWithFallback`` no
+  longer fall back to the first entry in ``settings.LANGUAGES`` but to the
+  fields' first language (which is the same except when overriding the
+  ``languages`` list in the ``TranslatedField`` instantiation).
 - Added a ``field`` keyword argument to the attrgetter and attrsetter
   calls. If an existing custom getter or setter does not support the
   argument you'll get a deprecation warning.
@@ -144,9 +148,9 @@ Change log
   fields created by ``TranslatedField``. Added the
   ``verbose_name_with_language=True`` parameter to ``TranslatedField``
   which allows skipping this behavior.
-- Added a ``languages`` keyword argument to ``TranslatedField`` to
-  allow specifying a different set of language-specific fields than the
-  default of the ``LANGUAGES`` setting.
+- Added a ``languages`` keyword argument to ``TranslatedField`` to allow
+  specifying a different set of language-specific fields than the default of
+  the ``settings.LANGUAGES`` setting.
 - Added a ``attrgetter`` keyword argument to ``TranslatedField`` to
   replace the default implementation of language-specific attribute
   getting.
