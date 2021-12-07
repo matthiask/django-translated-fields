@@ -12,6 +12,7 @@ Change log
   crashed with an ``AttributeError`` (but not caused by non-existant attributes
   on the model instance, but caused by the fact that the getter didn't receive
   a ``TranslatedField`` instance)
+- Added Python 3.10, Django 4.0 to the CI.
 
 
 `0.11`_ (2021-04-12)
