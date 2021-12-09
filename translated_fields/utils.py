@@ -47,7 +47,7 @@ class TranslatedFieldWithFallback(TranslatedField):
 def language_code_formfield_callback(db_field, **kwargs):
     language_code = getattr(db_field, "_translated_field_language_code", "")
     if language_code:
-        kwargs["label"] = keep_lazy_text(lambda s: "%s [%s]" % (s, language_code))(
+        kwargs["label"] = keep_lazy_text(lambda s: f"{s} [{language_code}]")(
             capfirst(db_field.verbose_name)
         )
     return db_field.formfield(**kwargs)

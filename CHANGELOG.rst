@@ -13,6 +13,8 @@ Change log
   on the model instance, but caused by the fact that the getter didn't receive
   a ``TranslatedField`` instance)
 - Added Python 3.10, Django 4.0 to the CI.
+- Dropped Python < 3.8, Django < 3.2.
+- Added pre-commit.
 
 
 `0.11`_ (2021-04-12)

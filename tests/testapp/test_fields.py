@@ -114,7 +114,7 @@ class Test(TestCase):
         )
         self.assertContains(response, 'id="id_form-0-name_de"')
 
-        response = client.get("/admin/testapp/testmodel/{}/change/".format(m.id))
+        response = client.get(f"/admin/testapp/testmodel/{m.id}/change/")
         self.assertContains(
             response,
             '<div><label>Other field [en]:</label><div class="readonly"></div></div>',

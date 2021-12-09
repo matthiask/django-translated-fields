@@ -34,7 +34,7 @@ def show_language_code(show):
 def _verbose_name_maybe_language_code(verbose_name, language_code):
     def verbose_name_fn():
         if _show_language_code.get(False):
-            return "%s [%s]" % (capfirst(verbose_name), language_code)
+            return f"{capfirst(verbose_name)} [{language_code}]"
         return str(verbose_name)
 
     return lazy(verbose_name_fn, str)()
@@ -42,7 +42,7 @@ def _verbose_name_maybe_language_code(verbose_name, language_code):
 
 def to_attribute(name, language_code=None):
     language = language_code or get_language()
-    return re.sub(r"[^a-z0-9_]+", "_", ("%s_%s" % (name, language)).lower())
+    return re.sub(r"[^a-z0-9_]+", "_", (f"{name}_{language}").lower())
 
 
 def translated_attrgetter(name, field):
@@ -80,7 +80,7 @@ def _optional_keywords(fn, *args, **kwargs):
     return fn(*args, **{key: value for key, value in kwargs.items() if key in params})
 
 
-class TranslatedField(object):
+class TranslatedField:
     def __init__(
         self, field, specific=None, *, languages=None, attrgetter=None, attrsetter=None
     ):
