@@ -91,6 +91,12 @@ class Test(TestCase):
         with override("de"):
             self.assertEqual(m.attr_any, "en")
 
+    def test_admin_changelist_redirect(self):
+        """Redirects have no render() method, TranslatedFieldAdmin shouldn't crash"""
+        client = self.login()
+        response = client.get("/admin/testapp/testmodel/?hello=world")
+        self.assertRedirects(response, "/admin/testapp/testmodel/?e=1")
+
     def test_admin(self):
         client = self.login()
         response = client.get("/admin/testapp/testmodel/add/")
