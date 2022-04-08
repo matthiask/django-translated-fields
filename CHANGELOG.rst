@@ -4,6 +4,14 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.12...main
+
+
+`0.12`_ (2022-04-08)
+~~~~~~~~~~~~~~~~~~~~
+
+.. _0.12: https://github.com/matthiask/django-translated-fields/compare/0.11...0.12
+
 - **BACKWARDS INCOMPATIBLE:** Made the ``field`` keyword argument to the
   attrgetter and attrsetter functions mandatory. django-translated-fields
   raised a deprecation warning if an attrgetter or attrsetter didn't support it
@@ -24,6 +32,8 @@ Change log
 
 `0.11`_ (2021-04-12)
 ~~~~~~~~~~~~~~~~~~~~
+
+.. _0.11: https://github.com/matthiask/django-translated-fields/compare/0.10...0.11
 
 - Changed ``TranslatedFieldAdmin`` to not blindly call ``.render()`` on
   all responses, just on those actually having such an attribute.
@@ -182,5 +192,3 @@ Change log
 .. _0.8: https://github.com/matthiask/django-translated-fields/compare/0.7...0.8
 .. _0.9: https://github.com/matthiask/django-translated-fields/compare/0.8...0.9
 .. _0.10: https://github.com/matthiask/django-translated-fields/compare/0.9...0.10
-.. _0.11: https://github.com/matthiask/django-translated-fields/compare/0.10...0.11
-.. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.11...main
