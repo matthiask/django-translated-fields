@@ -4,6 +4,11 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- **BACKWARDS INCOMPATIBLE:** Made the ``field`` keyword argument to the
+  attrgetter and attrsetter functions mandatory. django-translated-fields
+  raised a deprecation warning if an attrgetter or attrsetter didn't support it
+  since 0.8 (released in 2019) so this shouldn't be a problem for anyone,
+  hopefully.
 - Made ``language_code_formfield_callback`` preserve the lazyness of the
   underlying ``verbose_name``.
 - Stopped overwriting language-specific ``verbose_name`` values.

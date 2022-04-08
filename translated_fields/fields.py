@@ -1,7 +1,5 @@
 import contextvars
-import inspect
 import re
-import warnings
 from contextlib import contextmanager
 
 from django.conf import settings
@@ -66,20 +64,6 @@ def translated_attributes(*names, attrgetter=translated_attrgetter):
     return decorator
 
 
-def _optional_keywords(fn, *args, **kwargs):
-    params = inspect.signature(fn).parameters
-    if kwargs.keys() - params.keys():
-        warnings.warn(
-            "%s has unsupported arguments: %s"
-            % (
-                getattr(fn, "__name__", fn),
-                ", ".join(sorted(kwargs.keys() - params.keys())),
-            ),
-            DeprecationWarning,
-        )
-    return fn(*args, **{key: value for key, value in kwargs.items() if key in params})
-
-
 class TranslatedField:
     def __init__(
         self, field, specific=None, *, languages=None, attrgetter=None, attrsetter=None
@@ -115,8 +99,8 @@ class TranslatedField:
         self.fields = fields
         self.short_description = verbose_name
 
-        self._getter = _optional_keywords(self._attrgetter, name, field=self)
-        self._setter = _optional_keywords(self._attrsetter, name, field=self)
+        self._getter = self._attrgetter(name, field=self)
+        self._setter = self._attrsetter(name, field=self)
 
     def __get__(self, obj, objtype=None):
         if obj is None:
