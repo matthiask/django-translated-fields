@@ -6,6 +6,8 @@ Change log
 
 .. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.12...main
 
+- Added Django 4.1a1 to the CI matrix.
+
 
 `0.12`_ (2022-04-08)
 ~~~~~~~~~~~~~~~~~~~~
