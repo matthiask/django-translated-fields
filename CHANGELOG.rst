@@ -6,7 +6,10 @@ Change log
 
 .. _Next version: https://github.com/matthiask/django-translated-fields/compare/0.12...main
 
-- Added Django 4.1a1 to the CI matrix.
+- Added Django 4.1to the CI matrix.
+- Removed the never officially documented way to specify the
+  ``formfield_callback`` for modelforms, see
+  https://code.djangoproject.com/ticket/26456.
 
 
 `0.12`_ (2022-04-08)

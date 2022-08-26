@@ -325,7 +325,6 @@ this:
     from .models import Question
 
     class QuestionForm(forms.ModelForm):
-        formfield_callback = language_code_formfield_callback
 
         class Meta:
             model = Question
@@ -333,6 +332,10 @@ this:
                 *Question.question.fields,
                 *Question.answer.fields
             ]
+            # Supported starting with Django 4.2: (Previously it was supported
+            # directly on the modelform class, but only as an implementation
+            # detail https://code.djangoproject.com/ticket/26456)
+            formfield_callback = language_code_formfield_callback
 
 
 You may also globally configure language code labels to be shown within

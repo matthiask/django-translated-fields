@@ -1,5 +1,7 @@
 import re
+from unittest import skipIf
 
+import django
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -257,13 +259,16 @@ class Test(TestCase):
         with override("de"):
             self.assertEqual(obj.optional, "")
 
+    @skipIf(
+        django.VERSION < (4, 2),
+        "Specifying the callback wasn't officially supported before",
+    )
     def test_formfield_callback(self):
         class Form(forms.ModelForm):
-            formfield_callback = language_code_formfield_callback
-
             class Meta:
                 model = TestModel
                 fields = "__all__"
+                formfield_callback = language_code_formfield_callback
 
         with override("en"):
             result = str(Form())
