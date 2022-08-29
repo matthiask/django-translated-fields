@@ -18,7 +18,6 @@ __all__ = [
     "translated_attributes",
 ]
 
-
 _show_language_code = contextvars.ContextVar("show_language_code")
 
 
@@ -31,7 +30,11 @@ def show_language_code(show):
 
 def _verbose_name_maybe_language_code(verbose_name, language_code):
     def verbose_name_fn():
-        if _show_language_code.get(False):
+        _default_show_language_code = False
+        if hasattr(settings, 'TRANSLATED_FIELDS'):
+            _default_show_language_code = settings.TRANSLATED_FIELDS.get(
+                'SHOW_LANGUAGE_CODE',  _default_show_language_code)
+        if _show_language_code.get(_default_show_language_code):
             return f"{capfirst(verbose_name)} [{language_code}]"
         return str(verbose_name)
 
@@ -44,6 +47,56 @@ def to_attribute(name, language_code=None):
 
 
 def translated_attrgetter(name, field):
+    def getter(self):
+        language = get_language()
+        ret = getattr(
+            self,
+            to_attribute(name, language),
+        )
+        if ret is not None and ret != '':
+            return ret
+
+        default_fallback_to_sibling_languages = False
+        default_fallback_to_default_language = False
+        if hasattr(settings, 'TRANSLATED_FIELDS'):
+            default_fallback_to_sibling_languages = settings.TRANSLATED_FIELDS.get(
+                'GET_FALLBACK_TO_SIBLING_LANGUAGES',  default_fallback_to_sibling_languages)
+            default_fallback_to_default_language = settings.TRANSLATED_FIELDS.get(
+                'GET_FALLBACK_TO_DEFAULT_LANGUAGE',  default_fallback_to_default_language)
+
+        if default_fallback_to_sibling_languages:
+            language_parts = language.split('-')
+            del language_parts[-1]  # remove last
+            while len(language_parts) != 0:
+                language = '-'.join(language_parts)
+                att_name = to_attribute(name, language)
+                print(language)
+                if not hasattr(self, att_name):
+                    del language_parts[-1]  # remove last
+                    continue
+
+                ret = getattr(
+                    self,
+                    att_name,
+                )
+                if ret is not None and ret != '':
+                    return ret
+
+                del language_parts[-1]  # remove last
+
+        if default_fallback_to_default_language:
+            print(field.languages[0])
+            return getattr(
+                self,
+                to_attribute(name, field.languages[0]),
+            )
+
+        return None
+
+    return getter
+
+
+def translated_attrgetter2(name, field):
     return lambda self: getattr(
         self, to_attribute(name, get_language() or field.languages[0])
     )
@@ -54,7 +107,8 @@ def translated_attrsetter(name, field):
 
 
 def translated_attributes(*names, attrgetter=translated_attrgetter):
-    field = TranslatedField(None)  # Allow accessing field.languages etc. in the getter
+    # Allow accessing field.languages etc. in the getter
+    field = TranslatedField(None)
 
     def decorator(cls):
         for name in names:
@@ -72,7 +126,8 @@ class TranslatedField:
         self._specific = specific or {}
         self._attrgetter = attrgetter or translated_attrgetter
         self._attrsetter = attrsetter or translated_attrsetter
-        self.languages = list(languages or (lang[0] for lang in settings.LANGUAGES))
+        self.languages = list(languages or (
+            lang[0] for lang in settings.LANGUAGES))
 
         # Make space for our fields.
         self.creation_counter = Field.creation_counter
