@@ -364,3 +364,15 @@ writing `low maintenance software
 and pull requests are very welcome! Please run the style checks and test
 suite locally before submitting a pull request though -- all that this
 requires is running `tox <https://tox.readthedocs.io/>`_.
+
+
+Settings example:
+=================
+.. code-block:: python
+    TRANSLATED_FIELDS = {
+        # for the rest forms
+        'SHOW_LANGUAGE_CODE': True,
+        # Ex: if pt-br translation 
+        'GET_FALLBACK_TO_SIBLING_LANGUAGES': True,
+        'GET_FALLBACK_TO_DEFAULT_LANGUAGE': True,
+    }
