@@ -366,9 +366,16 @@ suite locally before submitting a pull request though -- all that this
 requires is running `tox <https://tox.readthedocs.io/>`_.
 
 
-Settings example:
-=================
+Change Settings:
+================
+
+SHOW_LANGUAGE_CODE: put the language on rest forms labels
+GET_FALLBACK_TO_SIBLING_LANGUAGES: when language is some like pt-br and the field-pt-br is empty, try return field-pt if exists and not empty
+GET_FALLBACK_TO_DEFAULT_LANGUAGE: when none non empty field is found, try use the settings.LANGUAGES[0][0];
+
+Example:
 .. code-block:: python
+
     TRANSLATED_FIELDS = {
         # for the rest forms
         'SHOW_LANGUAGE_CODE': True,
