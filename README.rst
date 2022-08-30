@@ -374,6 +374,7 @@ GET_FALLBACK_TO_SIBLING_LANGUAGES: when language is some like pt-br and the fiel
 GET_FALLBACK_TO_DEFAULT_LANGUAGE: when none non empty field is found, try use the settings.LANGUAGES[0][0];
 
 Example:
+
 .. code-block:: python
 
     TRANSLATED_FIELDS = {
