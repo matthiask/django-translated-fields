@@ -42,12 +42,18 @@ class CustomLanguagesModel(models.Model):
         attrgetter=custom_attrgetter,
     )
 
+    def __str__(self):
+        return self.name
+
 
 class SpecificModel(models.Model):
     name = TranslatedField(
         models.CharField(_("name"), max_length=200, blank=True),
         {"en": {"blank": False}, "de": {"verbose_name": "Der Name"}},
     )
+
+    def __str__(self):
+        return self.name
 
 
 class ListDisplayModel(models.Model):
@@ -60,6 +66,9 @@ class ListDisplayModel(models.Model):
     is_active = TranslatedField(models.BooleanField(_("is active"), default=True))
     file = TranslatedField(models.FileField(_("file"), blank=True))
     ordering = models.IntegerField(_("ordering"), default=0)
+
+    def __str__(self):
+        return self.name
 
 
 class ModelWithFallback(models.Model):
@@ -79,3 +88,6 @@ class ModelWithAnyFallback(models.Model):
         models.CharField(_("optional"), max_length=20, blank=True),
         attrgetter=fallback_to_any,
     )
+
+    def __str__(self):
+        return self.optional

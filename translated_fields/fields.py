@@ -65,7 +65,7 @@ def translated_attributes(*names, attrgetter=translated_attrgetter):
 
 
 class TranslatedField:
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self, field, specific=None, *, languages=None, attrgetter=None, attrsetter=None
     ):
         self._field = field

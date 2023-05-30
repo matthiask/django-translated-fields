@@ -10,9 +10,7 @@ from django.forms.models import modelform_factory
 from django.test import Client, TestCase
 from django.utils.translation import deactivate_all, override
 
-from translated_fields.utils import language_code_formfield_callback
-
-from .models import (
+from testapp.models import (
     CustomLanguagesModel,
     ListDisplayModel,
     ModelWithAnyFallback,
@@ -20,6 +18,7 @@ from .models import (
     SpecificModel,
     TestModel,
 )
+from translated_fields.utils import language_code_formfield_callback
 
 
 class Test(TestCase):
@@ -149,15 +148,15 @@ class Test(TestCase):
 
         # The attributes from LANGUAGES should not exist:
         with self.assertRaises(AttributeError):
-            m.name_en
+            _read = m.name_en
         with self.assertRaises(AttributeError):
-            m.name_de
+            _read = m.name_de
 
     def test_translated_field_instance(self):
         self.assertEqual(CustomLanguagesModel.name.languages, ["fr", "it"])
         m = CustomLanguagesModel()
         with self.assertRaises(AttributeError):
-            m.name.languages
+            _read = m.name.languages
 
         self.assertEqual(m.__class__.name.languages, ["fr", "it"])
 
@@ -267,7 +266,7 @@ class Test(TestCase):
         class Form(forms.ModelForm):
             class Meta:
                 model = TestModel
-                fields = "__all__"
+                fields = "__all__"  # noqa: DJ007
                 formfield_callback = language_code_formfield_callback
 
         with override("en"):

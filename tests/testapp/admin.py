@@ -1,8 +1,7 @@
 from django.contrib import admin
 
+from testapp import models
 from translated_fields import TranslatedFieldAdmin
-
-from . import models
 
 
 @admin.register(models.TestModel)

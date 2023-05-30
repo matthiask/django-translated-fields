@@ -1,7 +1,7 @@
 from django.utils.functional import keep_lazy_text
 from django.utils.text import capfirst
 
-from .fields import TranslatedField, to_attribute
+from translated_fields.fields import TranslatedField, to_attribute
 
 
 __all__ = [
