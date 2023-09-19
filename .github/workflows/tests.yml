@@ -5,6 +5,8 @@ on:
     branches:
       - main
   pull_request:
+  schedule:
+    - cron: "37 1 1 * *"
 
 jobs:
   tests:
