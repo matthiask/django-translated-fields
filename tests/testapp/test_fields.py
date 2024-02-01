@@ -116,7 +116,7 @@ class Test(TestCase):
         self.assertContains(
             response,
             '<th class="field-name_en"><a'
-            ' href="/admin/testapp/testmodel/{}/change/">Test</a></th>'.format(m.id),
+            f' href="/admin/testapp/testmodel/{m.id}/change/">Test</a></th>',
             html=True,
         )
         self.assertContains(response, 'id="id_form-0-name_de"')
@@ -124,7 +124,11 @@ class Test(TestCase):
         response = client.get(f"/admin/testapp/testmodel/{m.id}/change/")
         self.assertContains(
             response,
-            '<label>Other field [en]:</label><div class="readonly"></div>',
+            (
+                '<label>Other field [en]:</label><div class="readonly"></div>'
+                if django.VERSION < (5, 1)
+                else '<label>Other field [en]:</label><div class="readonly">-</div>'
+            ),
             html=True,
         )
 
