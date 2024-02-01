@@ -32,8 +32,8 @@ repos:
     hooks:
       - id: prettier
         entry: env PRETTIER_LEGACY_CLI=1 prettier
+        types_or: [javascript, css]
         args: [--list-different, --no-semi]
-        exclude: "^conf/|.*\\.html$"
   - repo: https://github.com/tox-dev/pyproject-fmt
     rev: 1.7.0
     hooks:
