@@ -152,37 +152,32 @@ safetyfeatures and may raise an ``AttributeError`` and the setter might
 set an attribute on the model instance not related to a model field.
 
 Both getters and setters can be overridden by specifying your own
-``attrgetter`` and ``attrsetter`` functions. E.g. you may want to
-specify a fallback to the default language (and at the same time allow
-leaving other languages' fields empty):
+``attrgetter`` and ``attrsetter`` functions. If you want to always fallback to
+the default language and allow other languages' fields to be empty you can use
+the ``TranslatedFieldWithFallback``:
 
 .. code-block:: python
 
-    from django.conf import settings
-    from translated_fields import TranslatedField, to_attribute
-
-    def fallback_to_default(name, field):
-        def getter(self):
-            return getattr(
-                self,
-                to_attribute(name),
-            ) or getattr(
-                self,
-                # First language acts as fallback:
-                to_attribute(name, settings.LANGUAGES[0][0]),
-            )
-        return getter
+    from translated_fields import TranslatedFieldWithFallback
 
     class Question(models.Model):
-        question = TranslatedField(
-            models.CharField(_("question"), max_length=200, blank=True),
-            {settings.LANGUAGES[0][0]: {"blank": False}},
-            attrgetter=fallback_to_default,
+        question = TranslatedFieldWithFallback(
+            models.CharField(_("question"), max_length=200),
         )
 
-Maybe you're using locales with region codes such as ``fr-fr`` where you
-want to fall back to the language without a region code. An example
-``attrgetter`` implementation follows:
+What it does is: It adds a question field for all languages and automatically
+falls back to the first defined language if the current language's field is
+left empty or if no language is activated at all. It also sets ``blank=True``
+on all field instances except for the first. Since this is such a common use
+case the ``TranslatedFieldWithFallback`` can be used directly, or you can use
+the ``translated_fields.utils.fallback_to_default`` attrgetter.
+
+A different use case might require falling back to any language, this is
+handled by the bundled ``translated_fields.utils.fallback_to_any`` attrgetter.
+
+A different use case might be when you're using locales with region codes such
+as ``fr-fr`` where you want to fall back to the language without a region code.
+An example ``attrgetter`` implementation follows:
 
 .. code-block:: python
 
