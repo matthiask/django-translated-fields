@@ -8,13 +8,36 @@ django-translated-fields
 
 Django model translation without magic-inflicted pain.
 
+Installation
+============
 
-Installation and usage
-======================
+Install the package into your virtualenv::
 
-After installing ``django-translated-fields`` in your Python
-environment all you have to do is define ``LANGUAGES`` in your
-settings and add translated fields to your models:
+    pip install django-translated-fields
+
+Add the package to your ``INSTALLED_APPS``:
+
+.. code-block:: python
+
+    INSTALLED_APPS = [
+        *INSTALLED_APPS,
+        "translated_fields",
+    ]
+
+django-translated-fields supports all versions of Django from 3.2 to 5.1. If in
+doubt, check the test runs in the GitHub actions environment.
+
+
+Usage
+=====
+
+You should define the `the list of languages your project supports in your
+settings first
+<https://docs.djangoproject.com/en/5.0/ref/settings/#languages>`__ by defining
+``LANGUAGES``. Otherwise, you'll get fields for all the dozens of languages
+Django supports out of the box.
+
+Next, add translated fields to your models:
 
 .. code-block:: python
 
