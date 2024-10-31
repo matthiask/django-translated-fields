@@ -4,6 +4,9 @@ Change log
 Next version
 ~~~~~~~~~~~~
 
+- Added Python 3.13 to the CI matrix.
+- Dropped Python 3.8 compatibility.
+
 
 `0.13`_ (2024-06-20)
 ~~~~~~~~~~~~~~~~~~~~
