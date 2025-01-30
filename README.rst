@@ -136,6 +136,29 @@ its second argument):
         )
 
 
+The ``to_attribute`` helper can also be used when filtering, for example:
+
+.. code-block:: python
+
+    from django.utils.translation import override
+    from translated_fields import to_attribute
+
+    # Find the value in a specific field:
+    with override("en"):
+        questions = Question.objects.filter(
+            **{to_attribute("question"): "How are you?"}
+        )
+
+    # Find the value in all fields:
+    from django.db.models import Q
+
+    s = "How are you?"
+    q = Q(**{Question.question.fields[0]: s})
+    for field in Question.question.fields[1:]:
+        q |= Q(**{field: s})
+    questions = Question.objects.filter(q)
+
+
 Changing field attributes per language
 ======================================
 
