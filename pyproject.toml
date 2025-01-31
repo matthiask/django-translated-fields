@@ -83,12 +83,12 @@ lint.extend-select = [
   "PGH",
   # flake8-pie
   "PIE",
+  "PLC",
   # pylint
-  "PL",
+  "PLE",
+  "PLW",
   # unused noqa
   "RUF100",
-  # flake8-simplify
-  "SIM",
   # pyupgrade
   "UP",
   "W",
@@ -110,3 +110,8 @@ lint.per-file-ignores."*/migrat*/*" = [
 lint.isort.combine-as-imports = true
 lint.isort.lines-after-imports = 2
 lint.mccabe.max-complexity = 15
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "testapp.settings"
+python_files = [ "tests.py", "test_*.py" ]
+addopts = "--reuse-db"
