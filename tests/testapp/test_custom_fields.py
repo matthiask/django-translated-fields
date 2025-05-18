@@ -2,6 +2,7 @@ import pytest
 from django.forms import modelform_factory
 from django.utils.translation import override
 
+from testapp.custom_fields import CustomPathTextField
 from testapp.field_types_models import CustomFieldModel
 
 
@@ -134,3 +135,110 @@ def test_custom_field_valid_options(option):
     model.save()
     assert model.custom_choices_en == option
     assert model.custom_choices_de == option
+
+
+@pytest.mark.django_db
+def test_custom_path_field_type_preserved():
+    """
+    Test that custom field classes are preserved even when the path is overridden.
+
+    This test passes unexpectedly. It seems TranslatedField actually does preserve
+    the field class, which is good! The path from deconstruct() is used only for
+    migrations, but the actual field instance in the model is of the correct type.
+
+    This shows that TranslatedField doesn't use the path from deconstruct() when
+    creating the field instances, but rather the original class.
+    """
+    # Get the field instances
+    custom_en = CustomFieldModel._meta.get_field("custom_path_text_en")
+    custom_de = CustomFieldModel._meta.get_field("custom_path_text_de")
+
+    # Check that the field instances are of the custom field type
+    assert isinstance(custom_en, CustomPathTextField)
+    assert isinstance(custom_de, CustomPathTextField)
+
+    # Get the deconstruct values
+    name_en, path_en, args_en, kwargs_en = custom_en.deconstruct()
+    name_de, path_de, args_de, kwargs_de = custom_de.deconstruct()
+
+    # Confirm that deconstruct returns the base TextField path
+    assert path_en == "django.db.models.TextField"
+    assert path_de == "django.db.models.TextField"
+
+    # Confirm we're using the right class despite the wrong path
+    assert type(custom_en) is CustomPathTextField
+    assert type(custom_de) is CustomPathTextField
+
+
+@pytest.mark.django_db
+def test_custom_path_field_form_generation():
+    """
+    Test form field generation for custom fields.
+
+    This test shows that while the model field instance is correctly preserved as CustomPathTextField,
+    when forms are generated, Django uses the field's formfield() method which returns a standard
+    form field type. This is expected behavior and not a bug in TranslatedField.
+    """
+    form_class = modelform_factory(
+        CustomFieldModel, fields=["custom_path_text_en", "custom_path_text_de"]
+    )
+    form = form_class()
+
+    # Get the form fields
+    field_en = form.fields["custom_path_text_en"]
+    field_de = form.fields["custom_path_text_de"]
+
+    # Get the model fields for comparison
+    model_field_en = CustomFieldModel._meta.get_field("custom_path_text_en")
+    model_field_de = CustomFieldModel._meta.get_field("custom_path_text_de")
+
+    # Check that the model field is our custom type
+    assert isinstance(model_field_en, CustomPathTextField)
+    assert isinstance(model_field_de, CustomPathTextField)
+
+    # Model field class is correctly preserved
+    assert type(model_field_en).__name__ == "CustomPathTextField"
+    assert type(model_field_de).__name__ == "CustomPathTextField"
+
+    # Form field is based on standard Django form fields - these assertions should pass
+    # Django maps TextField to Textarea widget by default
+    from django.forms import CharField
+
+    assert isinstance(field_en, CharField)
+    assert field_en.widget.__class__.__name__ == "Textarea"
+
+    # This is Django's standard behavior - model field's formfield() method determines
+    # what form field type is used, not TranslatedField's behavior
+    assert field_en.__class__.__name__ == "CharField"
+    assert field_de.__class__.__name__ == "CharField"
+
+
+@pytest.mark.django_db
+def test_custom_path_field_model_usage():
+    """
+    Test using the custom path text field with a model instance.
+
+    This test verifies that the basic functionality of the model works properly
+    with the CustomPathTextField when its path is overridden in deconstruct().
+    """
+    # Create a model instance with values for the custom path text field
+    text_en = "English text content"
+    text_de = "Deutscher Textinhalt"
+
+    model = CustomFieldModel.objects.create(
+        custom_choices_en="a",
+        custom_choices_de="a",
+        custom_path_text_en=text_en,
+        custom_path_text_de=text_de,
+    )
+
+    # Check that the values are correctly stored
+    assert model.custom_path_text_en == text_en
+    assert model.custom_path_text_de == text_de
+
+    # Check that the translated descriptor works
+    with override("en"):
+        assert model.custom_path_text == text_en
+
+    with override("de"):
+        assert model.custom_path_text == text_de

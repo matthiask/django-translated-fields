@@ -20,3 +20,23 @@ class ChoicesCharField(models.CharField):
         # TranslatedField should preserve the runtime choices, not the ones from deconstruct
         kwargs["choices"] = [("", "")]
         return name, path, args, kwargs
+
+
+class CustomPathTextField(models.TextField):
+    """
+    TextField that overrides the path in deconstruct() method.
+
+    This is similar to django-prose-editor's implementation where the field
+    returns a different path in deconstruct() to ensure it's reconstructed as
+    a standard TextField rather than the custom subclass.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def deconstruct(self):
+        name, _path, args, kwargs = super().deconstruct()
+        # Override the path to always use the base TextField class
+        # This simulates a field with custom behavior that reports a base field type in migrations
+        # TranslatedField preserves the original field class, but uses the path for migrations
+        return name, "django.db.models.TextField", args, kwargs

@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from testapp.custom_fields import ChoicesCharField
+from testapp.custom_fields import ChoicesCharField, CustomPathTextField
 from translated_fields import TranslatedField
 
 
@@ -109,6 +109,14 @@ class CustomFieldModel(models.Model):
             _("custom choices field"),
             max_length=10,
             choices=[("a", "Option A"), ("b", "Option B"), ("c", "Option C")],
+        )
+    )
+
+    # Custom field that changes its path in deconstruct
+    custom_path_text = TranslatedField(
+        CustomPathTextField(
+            _("custom path text field"),
+            help_text=_("This is a text field with custom path in deconstruct()"),
         )
     )
 
