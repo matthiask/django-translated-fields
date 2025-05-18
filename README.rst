@@ -158,6 +158,20 @@ The ``to_attribute`` helper can also be used when filtering, for example:
         q |= Q(**{field: s})
     questions = Question.objects.filter(q)
 
+.. important::
+
+   **Fields with custom deconstruct() methods**
+
+   If you use fields with custom ``deconstruct()`` methods that modify field
+   parameters (such as ``ChoicesCharField`` from feincms3), be aware that
+   ``TranslatedField`` currently uses the output of ``deconstruct()`` to create
+   the translated fields. This means any parameter modifications in the field's
+   ``deconstruct()`` method will affect the translated fields.
+
+   For example, if your custom field's ``deconstruct()`` method changes the
+   ``choices`` parameter, the translated fields will use those modified choices
+   rather than the original ones.
+
 
 Changing field attributes per language
 ======================================

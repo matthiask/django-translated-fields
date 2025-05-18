@@ -1,0 +1,136 @@
+import pytest
+from django.forms import modelform_factory
+from django.utils.translation import override
+
+from testapp.field_types_models import CustomFieldModel
+
+
+@pytest.mark.django_db
+def test_custom_field_choices_actual_behavior():
+    """
+    Test to demonstrate the current behavior with custom field deconstruct.
+
+    This test confirms what actually happens (not what we want to happen).
+    """
+    # Get the runtime field instances
+    custom_en = CustomFieldModel._meta.get_field("custom_choices_en")
+    custom_de = CustomFieldModel._meta.get_field("custom_choices_de")
+
+    # The actual current behavior - choices are taken from deconstruct() [("", "")]
+    # rather than the original [("a", "Option A"), ("b", "Option B"), ("c", "Option C")]
+    actual_choices = [("", "")]
+
+    # These assertions show what actually happens (would pass)
+    assert custom_en.choices == actual_choices
+    assert custom_de.choices == actual_choices
+
+    # Get the deconstruct() values to confirm this behavior
+    name_en, path_en, args_en, kwargs_en = custom_en.deconstruct()
+    name_de, path_de, args_de, kwargs_de = custom_de.deconstruct()
+
+    # Confirm that deconstruct() returns the same hardcoded choices
+    assert kwargs_en["choices"] == actual_choices
+    assert kwargs_de["choices"] == actual_choices
+
+
+@pytest.mark.xfail(
+    reason="TranslatedField doesn't handle custom deconstruct correctly yet"
+)
+@pytest.mark.django_db
+def test_custom_field_choices_preserved():
+    """
+    Test that choices from custom fields with custom deconstruct methods are preserved.
+
+    This is currently an expected failure because TranslatedField doesn't properly
+    handle fields with custom deconstruct methods that modify field parameters.
+
+    The issue is in translated_fields/fields.py line 82:
+        _n, _p, args, kwargs = self._field.deconstruct()
+
+    When using a field with a custom deconstruct() method that modifies parameters like 'choices',
+    those modifications affect the translated fields that are created.
+
+    A possible fix would be to store the original parameters before deconstruct() is called,
+    or to copy the field's __dict__ attributes directly instead of using deconstruct().
+    """
+    # Get the runtime field instances
+    custom_en = CustomFieldModel._meta.get_field("custom_choices_en")
+    custom_de = CustomFieldModel._meta.get_field("custom_choices_de")
+
+    # The runtime choices should be the ones we specified at field creation time,
+    # not the hardcoded ones from deconstruct()
+    expected_choices = [("a", "Option A"), ("b", "Option B"), ("c", "Option C")]
+
+    # Check the field choices match what we defined, not what deconstruct() returns
+    assert custom_en.choices == expected_choices
+    assert custom_de.choices == expected_choices
+
+
+@pytest.mark.xfail(
+    reason="TranslatedField doesn't handle custom deconstruct correctly yet"
+)
+@pytest.mark.django_db
+def test_custom_field_form_generation():
+    """
+    Test that forms generated from custom fields have the correct choices.
+
+    This fails for the same reason as test_custom_field_choices_preserved:
+    the choices from the original field definition are not preserved when
+    deconstruct() replaces them with hardcoded values.
+    """
+    form_class = modelform_factory(CustomFieldModel, fields="__all__")
+    form = form_class()
+
+    # Form field choices should include the default empty choice plus our defined choices
+    expected_form_choices = [
+        ("", "---------"),
+        ("a", "Option A"),
+        ("b", "Option B"),
+        ("c", "Option C"),
+    ]
+
+    # Check that form fields have the expected choices
+    assert form.fields["custom_choices_en"].choices == expected_form_choices
+    assert form.fields["custom_choices_de"].choices == expected_form_choices
+
+
+@pytest.mark.xfail(
+    reason="TranslatedField doesn't handle custom deconstruct correctly yet"
+)
+@pytest.mark.django_db
+def test_custom_field_model_usage():
+    """
+    Test using the custom field with a model instance.
+
+    This fails because the get_FOO_display() method relies on the correct choices
+    being set on the field. Since the choices are replaced with [("", "")] during
+    field creation, the display values don't match what we expect.
+    """
+    # Create a model instance with values for the custom field
+    model = CustomFieldModel.objects.create(
+        custom_choices_en="a",
+        custom_choices_de="b",
+    )
+
+    # Check that the values are correctly stored and the choices behavior works
+    with override("en"):
+        assert model.custom_choices == "a"
+        assert model.get_custom_choices_display() == "Option A"
+
+    with override("de"):
+        assert model.custom_choices == "b"
+        assert model.get_custom_choices_display() == "Option B"
+
+
+@pytest.mark.parametrize("option", ["a", "b", "c"])
+@pytest.mark.django_db
+def test_custom_field_valid_options(option):
+    """Test that valid choice options can be saved."""
+    # This test should pass even if the choices aren't preserved correctly
+    # as long as the field validation isn't overly strict
+    model = CustomFieldModel()
+    model.custom_choices_en = option
+    model.custom_choices_de = option
+    model.save()
+    assert model.custom_choices_en == option
+    assert model.custom_choices_de == option

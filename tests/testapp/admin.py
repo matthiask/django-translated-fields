@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from testapp import models
+from testapp.field_types_models import CustomFieldModel, FieldTypesModel
 from translated_fields import TranslatedFieldAdmin
 
 
@@ -25,3 +26,18 @@ class ListDisplayModelAdmin(TranslatedFieldAdmin, admin.ModelAdmin):
 
     def stuff(self, instance):
         return "stuff"
+
+
+@admin.register(FieldTypesModel)
+class FieldTypesModelAdmin(TranslatedFieldAdmin, admin.ModelAdmin):
+    list_display = [
+        *FieldTypesModel.char_field.fields,
+        *FieldTypesModel.text_field.fields,
+    ]
+
+
+@admin.register(CustomFieldModel)
+class CustomFieldModelAdmin(TranslatedFieldAdmin, admin.ModelAdmin):
+    list_display = [
+        *CustomFieldModel.custom_choices.fields,
+    ]
