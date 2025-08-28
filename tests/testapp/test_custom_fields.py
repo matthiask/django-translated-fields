@@ -1,5 +1,5 @@
 import pytest
-from django.forms import modelform_factory
+from django.forms import CharField, modelform_factory
 from django.utils.translation import override
 
 from testapp.custom_fields import CustomPathTextField
@@ -202,7 +202,6 @@ def test_custom_path_field_form_generation():
 
     # Form field is based on standard Django form fields - these assertions should pass
     # Django maps TextField to Textarea widget by default
-    from django.forms import CharField
 
     assert isinstance(field_en, CharField)
     assert field_en.widget.__class__.__name__ == "Textarea"
